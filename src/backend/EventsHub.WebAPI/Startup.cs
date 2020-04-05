@@ -10,6 +10,7 @@ using EventsHub.BLL.Configurations;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using EventsHub.BLL.Interfaces;
 
 namespace EventsHub.Mobile.Web
 {
@@ -25,11 +26,13 @@ namespace EventsHub.Mobile.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IItemRepository, ItemRepository>();
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SqlServerConnection"));
-            services.AddTransient<ParserSchedulerService>();
             services.AddUnitOfWork();
             ConfigureAuth(services);
+
+            services.AddSingleton<IItemRepository, ItemRepository>();
+            services.AddTransient<ParserSchedulerService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

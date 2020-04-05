@@ -8,21 +8,40 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using EventsHub.DAL.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+using EventsHub.DAL.Entities;
+using EventsHub.Common.Helpers;
+using AutoMapper;
 
 namespace EventsHub.BLL.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly TokenManagement tokenManagement;
+        private readonly IUnitOfWork unitOfWork;
 
-        public AuthenticationService(IOptions<TokenManagement> tokenManagement)
+        public AuthenticationService(IOptions<TokenManagement> tokenManagement, IUnitOfWork unitOfWork)
         {
             this.tokenManagement = tokenManagement.Value;
+            this.unitOfWork = unitOfWork;
         }
 
-        public Task<UserDto> GetUser(LoginDto loginDto)
+        public async Task<UserDto> GetUser(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            var user = await unitOfWork.Repository<User>().GetAll().Include(x => x.Role)
+                .FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>()
+                .ForMember(u => u.RoleName, opt => opt.MapFrom(u => u.Role.Name)))
+                .CreateMapper();
+            var userDto = mapper.Map<User, UserDto>(user);
+
+            if (PasswordHasher.VerifyHashedPassword(user.PasswordHash, loginDto.Password))
+            {
+                return userDto;
+            }
+            throw new Exception($"Cannot get user with {nameof(loginDto.Email)}: {loginDto.Email}.");
         }
 
         public async Task<string> Login(UserDto userDto)
@@ -46,13 +65,22 @@ namespace EventsHub.BLL.Services
                     signingCredentials: credentials
                 );
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
                 return token;
             });
         }
 
-        public Task Register(RegisterDto registerDto)
+        public async Task Register(RegisterDto newUserDto)
         {
-            throw new NotImplementedException();
+            var newUser = new User()
+            {
+                Email = newUserDto.Email,
+                PasswordHash = PasswordHasher.HashPassword(newUserDto.Password),
+                RoleId = (await unitOfWork.Repository<Role>().Get(r => r.Name == "Unconfirmed")).Id
+            };
+
+            unitOfWork.Repository<User>().Add(newUser);
+            await unitOfWork.SaveChangesAsync();
         }
     }
 }
