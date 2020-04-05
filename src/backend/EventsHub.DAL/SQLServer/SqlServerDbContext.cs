@@ -8,7 +8,6 @@ namespace EventsHub.DAL.SQLServer
     {
         public SqlServerDbContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public virtual DbSet<User> Users { get; set; }
