@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using EventsHub.BLL.Interfaces;
+using FluentValidation.AspNetCore;
 
 namespace EventsHub.Mobile.Web
 {
@@ -25,7 +26,13 @@ namespace EventsHub.Mobile.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddMvc()
+                .AddFluentValidation(options =>
+            {
+                   options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                   options.ImplicitlyValidateChildProperties = true;
+            });
+
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SqlServerConnection"));
             services.AddUnitOfWork();
             ConfigureAuth(services);

@@ -76,7 +76,7 @@ namespace EventsHub.BLL.Services
             {
                 Email = newUserDto.Email,
                 PasswordHash = PasswordHasher.HashPassword(newUserDto.Password),
-                RoleId = (await unitOfWork.Repository<Role>().Get(r => r.Name == "Unconfirmed")).Id
+                RoleId = (await unitOfWork.Repository<Role>().Get(r => r.Name == "User")).Id
             };
 
             unitOfWork.Repository<User>().Add(newUser);

@@ -38,9 +38,9 @@ namespace EventsHub.WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUp([FromForm] RegisterViewModel newUser)
+        public async Task<IActionResult> SignUp([FromBody] RegisterViewModel newUser)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RegisterViewModel, RegisterViewModel>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RegisterViewModel, RegisterDto>()).CreateMapper();
             var newUserDto = mapper.Map<RegisterViewModel, RegisterDto>(newUser);
 
             await authenticationService.Register(newUserDto);
