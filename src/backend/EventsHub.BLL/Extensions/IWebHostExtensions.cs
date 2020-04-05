@@ -1,10 +1,11 @@
-﻿using FluentScheduler;
+﻿using EventsHub.BLL.Scheduler;
+using FluentScheduler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace EventsHub.BLL.Scheduler
+namespace EventsHub.BLL.Extensions
 {
-    public static class IWebHostExtension
+    public static class IWebHostExtensions
     {
         public static IHost StartScheduler(this IHost host)
         {

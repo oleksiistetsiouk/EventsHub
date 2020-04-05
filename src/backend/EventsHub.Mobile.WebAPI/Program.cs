@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using EventsHub.BLL.Scheduler;
+﻿using EventsHub.BLL.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
