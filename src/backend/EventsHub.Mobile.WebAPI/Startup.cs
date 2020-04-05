@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using EventsHub.Mobile.Models;
 using EventsHub.BLL.Infrastructure;
+using EventsHub.BLL.Services;
 
 namespace EventsHub.Mobile.Web
 {
@@ -26,6 +27,7 @@ namespace EventsHub.Mobile.Web
             services.AddControllers();
             services.AddSingleton<IItemRepository, ItemRepository>();
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SqlServerConnection"));
+            services.AddTransient<ParserSchedulerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
