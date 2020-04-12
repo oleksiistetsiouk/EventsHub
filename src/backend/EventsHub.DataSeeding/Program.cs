@@ -1,5 +1,6 @@
 ﻿using EventsHub.Common.Helpers;
 using EventsHub.DAL.Entities;
+using EventsHub.DAL.Entities.Theatre;
 using EventsHub.DAL.SQLServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -43,8 +44,29 @@ namespace EventsHub.DataSeeding
                 }
             };
 
+            var theatrePlays = new List<TheatrePlay>()
+            {
+                new TheatrePlay()
+                {
+                    Name ="Romeo and Julietta",
+                    Description ="Very sad story",
+                    Place ="Operniy teatre",
+                    PriceFrom = 120,
+                    PriceTo = 190
+                },
+                new TheatrePlay
+                {
+                    Name ="Gamlet",
+                    Description ="You mast watch it!",
+                    Place ="Operniy teatre",
+                    PriceFrom = 110,
+                    PriceTo = 210
+                }
+            };
+
             await dbContext.ClearAndSeed(roles);
             await dbContext.ClearAndSeed(users);
+            await dbContext.ClearAndSeed(theatrePlays);
 
             Console.WriteLine("Completed");
         }
@@ -57,7 +79,7 @@ namespace EventsHub.DataSeeding
 
             var configuration = configurationBuilder.Build();
 
-            var connectionString = configuration.GetConnectionString("SqlServerConnection");
+            var connectionString = configuration.GetConnectionString("SmarterAspConnectionString");
 
             var dbContextOptionsBuilder = new DbContextOptionsBuilder()
                 .UseSqlServer(connectionString);

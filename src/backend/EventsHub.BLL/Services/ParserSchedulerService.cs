@@ -1,12 +1,20 @@
-﻿using FluentScheduler;
+﻿using EventsHub.Parser;
+using FluentScheduler;
 
 namespace EventsHub.BLL.Services
 {
     public class ParserSchedulerService : IJob
     {
-        public void Execute()
+        private ParserRunner parserRunner;
+
+        public ParserSchedulerService()
         {
-            throw new System.NotImplementedException();
+            parserRunner = new ParserRunner();
+        }
+
+        public async void Execute()
+        {
+            await parserRunner.Run();
         }
     }
 }
