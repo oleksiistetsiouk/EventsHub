@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using EventsHub.BLL.DTO;
 using EventsHub.BLL.Interfaces;
@@ -23,17 +24,24 @@ namespace EventsHub.WebAPI.Controllers
         [HttpPost("signIn")]
         public async Task<IActionResult> SignIn([FromBody] LoginViewModel loginModel)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<LoginViewModel, LoginDto>()).CreateMapper();
-            var loginDto = mapper.Map<LoginViewModel, LoginDto>(loginModel);
-
-            var user = await authenticationService.GetUser(loginDto);
-            var token = await authenticationService.Login(user);
-            if (string.IsNullOrEmpty(token))
+            try
             {
-                return BadRequest("Invalid Request");
-            }
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<LoginViewModel, LoginDto>()).CreateMapper();
+                var loginDto = mapper.Map<LoginViewModel, LoginDto>(loginModel);
 
-            return Ok(token);
+                var user = await authenticationService.GetUser(loginDto);
+                var token = await authenticationService.Login(user);
+                if (string.IsNullOrEmpty(token))
+                {
+                    return BadRequest("Invalid Request");
+                }
+
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [AllowAnonymous]
