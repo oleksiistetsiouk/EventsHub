@@ -33,13 +33,17 @@ namespace EventsHub.Mobile.Web
                    options.ImplicitlyValidateChildProperties = true;
             });
 
-            services.AddSqlServerDbContext(Configuration.GetConnectionString("SqlServerConnection"));
+            services.AddSqlServerDbContext(Configuration.GetConnectionString("SmarterAspConnectionString"));
             services.AddUnitOfWork();
             ConfigureAuth(services);
-
+            //repositories
             services.AddSingleton<IItemRepository, ItemRepository>();
+            //services
             services.AddTransient<ParserSchedulerService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<ITheatreService, TheatreService>();
+            services.AddTransient<IFilmService, FilmService>();
+            services.AddTransient<IConcertService, ConcertService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

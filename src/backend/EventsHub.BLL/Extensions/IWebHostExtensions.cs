@@ -1,13 +1,13 @@
 ﻿using EventsHub.BLL.Scheduler;
 using FluentScheduler;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace EventsHub.BLL.Extensions
 {
     public static class IWebHostExtensions
     {
-        public static IHost StartScheduler(this IHost host)
+        public static IWebHost StartScheduler(this IWebHost host)
         {
             var scope = host.Services.CreateScope();
             JobManager.Initialize(new ParserSchedulerRegistry(scope));
