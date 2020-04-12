@@ -39,7 +39,8 @@ namespace EventsHub.Mobile.Web
             //repositories
             services.AddSingleton<IItemRepository, ItemRepository>();
             //services
-            services.AddTransient<ParserSchedulerService>();
+            services.AddTransient<ParserService>();
+            services.AddTransient<CleanerService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<ITheatreService, TheatreService>();
             services.AddTransient<IFilmService, FilmService>();
