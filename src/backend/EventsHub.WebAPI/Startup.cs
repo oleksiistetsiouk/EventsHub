@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using EventsHub.BLL.Interfaces;
+using FluentValidation.AspNetCore;
 
 namespace EventsHub.Mobile.Web
 {
@@ -25,14 +26,24 @@ namespace EventsHub.Mobile.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSqlServerDbContext(Configuration.GetConnectionString("SqlServerConnection"));
+            services.AddMvc()
+                .AddFluentValidation(options =>
+            {
+                   options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                   options.ImplicitlyValidateChildProperties = true;
+            });
+
+            services.AddSqlServerDbContext(Configuration.GetConnectionString("SmarterAspConnectionString"));
             services.AddUnitOfWork();
             ConfigureAuth(services);
-
+            //repositories
             services.AddSingleton<IItemRepository, ItemRepository>();
+            //services
             services.AddTransient<ParserSchedulerService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<ITheatreService, TheatreService>();
+            services.AddTransient<IFilmService, FilmService>();
+            services.AddTransient<IConcertService, ConcertService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -20,7 +20,7 @@ namespace EventsHub.BLL.Extensions
 
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
-            return services.AddTransient<IUnitOfWork, UnitOfWork>(provider =>
+            return services.AddTransient<UnitOfWork>(provider =>
                 new UnitOfWork(provider.GetRequiredService<SqlServerDbContext>()));
         }
     }

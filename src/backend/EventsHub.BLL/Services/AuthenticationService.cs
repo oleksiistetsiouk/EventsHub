@@ -19,9 +19,9 @@ namespace EventsHub.BLL.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly TokenManagement tokenManagement;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly UnitOfWork unitOfWork;
 
-        public AuthenticationService(IOptions<TokenManagement> tokenManagement, IUnitOfWork unitOfWork)
+        public AuthenticationService(IOptions<TokenManagement> tokenManagement, UnitOfWork unitOfWork)
         {
             this.tokenManagement = tokenManagement.Value;
             this.unitOfWork = unitOfWork;
@@ -29,19 +29,28 @@ namespace EventsHub.BLL.Services
 
         public async Task<UserDto> GetUser(LoginDto loginDto)
         {
-            var user = await unitOfWork.Repository<User>().GetAll().Include(x => x.Role)
-                .FirstOrDefaultAsync(u => u.Email == loginDto.Email);
-
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>()
-                .ForMember(u => u.RoleName, opt => opt.MapFrom(u => u.Role.Name)))
-                .CreateMapper();
-            var userDto = mapper.Map<User, UserDto>(user);
-
-            if (PasswordHasher.VerifyHashedPassword(user.PasswordHash, loginDto.Password))
+            try
             {
-                return userDto;
+                var user = await unitOfWork.UserRepository.Get(u => u.Email == loginDto.Email);
+
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>()
+                    .ForMember(u => u.RoleName, opt => opt.MapFrom(u => u.Role.Name)))
+                    .CreateMapper();
+                var userDto = mapper.Map<User, UserDto>(user);
+
+                if (user == null)
+                    throw new Exception($"User {nameof(loginDto.Email)}: {loginDto.Email} not found.");
+
+                if (PasswordHasher.VerifyHashedPassword(user.PasswordHash, loginDto.Password))
+                {
+                    return userDto;
+                }
+                throw new Exception($"Cannot get user with {nameof(loginDto.Email)}: {loginDto.Email}.");
             }
-            throw new Exception($"Cannot get user with {nameof(loginDto.Email)}: {loginDto.Email}.");
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<string> Login(UserDto userDto)
@@ -76,7 +85,7 @@ namespace EventsHub.BLL.Services
             {
                 Email = newUserDto.Email,
                 PasswordHash = PasswordHasher.HashPassword(newUserDto.Password),
-                RoleId = (await unitOfWork.Repository<Role>().Get(r => r.Name == "Unconfirmed")).Id
+                RoleId = (await unitOfWork.Repository<Role>().Get(r => r.Name == "User")).Id
             };
 
             unitOfWork.Repository<User>().Add(newUser);

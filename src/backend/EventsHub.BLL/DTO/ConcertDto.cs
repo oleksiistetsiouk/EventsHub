@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace EventsHub.DAL.Entities.Concert
+namespace EventsHub.BLL.DTO
 {
-    public class Concert
+    public class ConcertDto
     {
         public int ConcertId { get; set; }
         public string Title { get; set; }

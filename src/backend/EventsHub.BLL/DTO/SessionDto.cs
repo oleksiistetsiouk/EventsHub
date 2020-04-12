@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace EventsHub.DAL.Entities.Film
+namespace EventsHub.BLL.DTO
 {
-    public class Session
+    public class SessionDto
     {
         public int SessionId { get; set; }
         public DateTime Time { get; set; }
@@ -11,9 +11,5 @@ namespace EventsHub.DAL.Entities.Film
         public int PriceTo { get; set; }
         public bool IsShown { get; set; }
         public string SessionType { get; set; }
-        public int FilmId { get; set; }
-        public int CinemaId { get; set; }
-        public Film Film { get; set; }
-        public Cinema Cinema { get; set; }
     }
 }
