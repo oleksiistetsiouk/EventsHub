@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EventsHub.Common.Helpers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,16 @@ namespace EventsHub.DAL.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly DbSet<TEntity> _dbSet;
+        protected readonly DbSet<TEntity> _dbSet;
 
         public Repository(DbSet<TEntity> dbSet)
         {
             _dbSet = dbSet;
         }
 
-        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null)
+        public virtual async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null)
         {
-            var query = GetAll();
+            var query = _dbSet.AsQueryable();
             if (predicate != null)
             {
                 query = query.Where(predicate);
@@ -27,20 +28,15 @@ namespace EventsHub.DAL.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null)
+        public virtual async Task<IEnumerable<TEntity>> GetAll(Expression<Func<TEntity, bool>> predicate = null, FilterParams filterParams = null)
         {
-            var query = GetAll();
+            var query = _dbSet.AsQueryable();
             if (predicate != null)
             {
                 query = query.Where(predicate);
             }
 
             return await query.ToListAsync();
-        }
-
-        public IQueryable<TEntity> GetAll()
-        {
-            return _dbSet.AsQueryable();
         }
 
         public void Remove(TEntity entity)
