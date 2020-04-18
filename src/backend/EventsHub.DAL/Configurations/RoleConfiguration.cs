@@ -11,6 +11,5 @@ namespace EventsHub.DAL.Configurations
             builder.ToTable("Roles");
             builder.Property(e => e.RoleId).ValueGeneratedOnAdd();
         }
-
     }
 }

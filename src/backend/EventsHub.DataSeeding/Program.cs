@@ -34,7 +34,7 @@ namespace EventsHub.DataSeeding
             Console.WriteLine("Completed");
         }
 
-        private static SqlServerDbContext CreateDbContext()
+        private static DbContext CreateDbContext()
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");
@@ -47,8 +47,6 @@ namespace EventsHub.DataSeeding
                 .UseSqlServer(connectionString)
                 .EnableSensitiveDataLogging(true)
                 .EnableDetailedErrors(true);
-                //.UseInMemoryDatabase(Guid.NewGuid().ToString())
-                //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
             var dbContextOptions = dbContextOptionsBuilder.Options;
             return new SqlServerDbContext(dbContextOptions);

@@ -7,20 +7,20 @@ namespace EventsHub.DataSeeding
 {
     internal static class SeedData
     {
-        public static async Task Seed<TEntity>(this SqlServerDbContext dbContext, IEnumerable<TEntity> entities) where TEntity : class
+        public static async Task Seed<TEntity>(this DbContext dbContext, IEnumerable<TEntity> entities) where TEntity : class
         {
             await dbContext.AddRangeAsync(entities);
             await dbContext.SaveChangesAsync();
         }
 
-        public static async Task Clear<TEntity>(this SqlServerDbContext dbContext) where TEntity : class
+        public static async Task Clear<TEntity>(this DbContext dbContext) where TEntity : class
         {
             var entities = await dbContext.Set<TEntity>().ToListAsync();
             dbContext.Set<TEntity>().RemoveRange(entities);
             await dbContext.SaveChangesAsync();
         }
 
-        public static async Task ClearAndSeed<TEntity>(this SqlServerDbContext dbContext, IEnumerable<TEntity> entities)
+        public static async Task ClearAndSeed<TEntity>(this DbContext dbContext, IEnumerable<TEntity> entities)
             where TEntity : class
         {
             await dbContext.Clear<TEntity>();
