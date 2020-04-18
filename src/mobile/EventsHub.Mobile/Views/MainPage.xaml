@@ -19,8 +19,8 @@
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>
-                <views:LoginPage />
-                <!--<views:ItemsPage />-->
+                <!--<views:LoginPage />-->
+                <views:ItemsPage />
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

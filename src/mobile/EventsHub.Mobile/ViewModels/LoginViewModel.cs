@@ -36,10 +36,8 @@ namespace EventsHub.Mobile.ViewModels
             {
                 return false;
             }
-            var token = await authenticationService.Login(email, password);
-            var isAuthenticated = !string.IsNullOrEmpty(token);
 
-            return isAuthenticated;
+            return await authenticationService.Login(email, password);
         }
 
         public string Email
