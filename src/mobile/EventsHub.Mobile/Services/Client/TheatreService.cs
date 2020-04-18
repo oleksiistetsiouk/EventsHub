@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace EventsHub.Mobile.Services
+namespace EventsHub.Mobile.Services.Client
 {
     public class TheatreService : ServiceBase
     {

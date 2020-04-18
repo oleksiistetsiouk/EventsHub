@@ -4,12 +4,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventsHub.Mobile.Services
+namespace EventsHub.Mobile.Services.Client
 {
     public class AuthenticationService : ServiceBase
     {
-        public async Task<string> Login(Login loginModel)
+        public async Task<string> Login(string email, string password)
         {
+            var loginModel = new Login() { Email = email, Password = password };
             string token = "";
             if (IsConnected)
             {

@@ -34,6 +34,7 @@ namespace EventsHub.Mobile.Web
             });
 
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SmarterAspConnectionString"));
+            //services.AddSqlServerDbContext(Configuration.GetConnectionString("LocalServerConectionString"));
             services.AddUnitOfWork();
             ConfigureAuth(services);
             //repositories

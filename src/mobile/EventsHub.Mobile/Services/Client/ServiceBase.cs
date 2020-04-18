@@ -2,7 +2,7 @@
 using System.Net.Http;
 using Xamarin.Essentials;
 
-namespace EventsHub.Mobile.Services
+namespace EventsHub.Mobile.Services.Client
 {
     public class ServiceBase
     {

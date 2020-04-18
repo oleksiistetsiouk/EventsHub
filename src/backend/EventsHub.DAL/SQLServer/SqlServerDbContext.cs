@@ -4,6 +4,7 @@ using EventsHub.DAL.Entities.Concert;
 using EventsHub.DAL.Entities.Film;
 using EventsHub.DAL.Entities.Theatre;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace EventsHub.DAL.SQLServer
 {
@@ -23,6 +24,10 @@ namespace EventsHub.DAL.SQLServer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new SessionConfiguration());
+            modelBuilder.ApplyConfiguration(new CinemaConfiguration());
+            modelBuilder.ApplyConfiguration(new FilmConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }

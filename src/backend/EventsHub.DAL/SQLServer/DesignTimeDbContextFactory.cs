@@ -14,7 +14,7 @@ namespace EventsHub.DAL.SQLServer
             .AddJsonFile("appsettings.json")
             .Build();
             var builder = new DbContextOptionsBuilder<SqlServerDbContext>();
-            var connectionString = configuration.GetConnectionString("SqlServerConnection");
+            var connectionString = configuration.GetConnectionString("SmarterAspConnectionString");
             builder.UseSqlServer(connectionString);
 
             return new SqlServerDbContext(builder.Options);

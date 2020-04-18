@@ -11,8 +11,8 @@ namespace EventsHub.DAL.Entities.Film
         public int PriceTo { get; set; }
         public bool IsShown { get; set; }
         public string SessionType { get; set; }
-        public int FilmId { get; set; }
-        public int CinemaId { get; set; }
+        public int? FilmId { get; set; }
+        public int? CinemaId { get; set; }
         public Film Film { get; set; }
         public Cinema Cinema { get; set; }
     }
