@@ -1,11 +1,17 @@
 ﻿using EventsHub.Common.Helpers;
 using EventsHub.DAL.Entities;
+using EventsHub.DAL.Entities.Concert;
+using EventsHub.DAL.Entities.Film;
 using EventsHub.DAL.Entities.Theatre;
 using EventsHub.DAL.SQLServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.DataSeeding
@@ -15,65 +21,21 @@ namespace EventsHub.DataSeeding
         private static async Task Main(string[] args)
         {
             using var dbContext = CreateDbContext();
-            var adminRoleId = new Guid("f4cbff0f-4bc0-42a4-9738-8d9f9bb734ba");
-            var userRoleId = new Guid("50245ab3-6770-4269-ac26-30a942116a70");
-            var guestRoleId = new Guid("7e9b3674-e720-4d50-939b-93ce8e8b1c44");
 
-            var adminId = new Guid("f5aa0c0e-b669-466c-825a-2c52c58a019b");
-            var memberId = new Guid("3bcec608-e6a4-45e5-b3b2-cdf252a639de");
-            var guestId = new Guid("29cf2d1c-6328-4861-a718-6a6bcc984337");
+            await dbContext.ClearAndSeed(await GetRoles());
+            await dbContext.ClearAndSeed(await GetUsersWithRoles());
+            await dbContext.ClearAndSeed(await GetTheatrePlays());
+            await dbContext.ClearAndSeed(await GetConcerts());
 
-            var roles = new List<Role>()
-            {
-                new Role() { Id = adminRoleId, Name = "Admin" },
-                new Role() { Id = userRoleId, Name = "User" },
-                new Role() { Id = guestRoleId, Name = "Guest" }
-            };
-
-            var users = new List<User>()
-            {
-                new User()
-                {
-                    Id = adminId, Email = "admin@gmail.com",
-                    PasswordHash = PasswordHasher.HashPassword("password"), RoleId = adminRoleId
-                },
-                new User
-                {
-                    Id = memberId, Email = "user@gmail.com",
-                    PasswordHash = PasswordHasher.HashPassword("password"), RoleId = userRoleId
-                }
-            };
-
-            var theatrePlays = new List<TheatrePlay>()
-            {
-                new TheatrePlay()
-                {
-                    Name ="Romeo and Julietta",
-                    Description ="Very sad story",
-                    Place ="Operniy teatre",
-                    PriceFrom = 120,
-                    PriceTo = 190
-                },
-                new TheatrePlay
-                {
-                    Name ="Gamlet",
-                    Description ="You mast watch it!",
-                    Place ="Operniy teatre",
-                    PriceFrom = 110,
-                    PriceTo = 210
-                }
-            };
-
-            await dbContext.ClearAndSeed(roles);
-            await dbContext.ClearAndSeed(users);
-            await dbContext.ClearAndSeed(theatrePlays);
+            await dbContext.ClearAndSeed(await GetFilms());
+            await dbContext.ClearAndSeed(await GetCinemas());
+            await dbContext.ClearAndSeed(await GetSessions());
 
             Console.WriteLine("Completed");
         }
 
         private static DbContext CreateDbContext()
         {
-
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");
 
@@ -82,10 +44,114 @@ namespace EventsHub.DataSeeding
             var connectionString = configuration.GetConnectionString("SmarterAspConnectionString");
 
             var dbContextOptionsBuilder = new DbContextOptionsBuilder()
-                .UseSqlServer(connectionString);
-            var dbContextOptions = dbContextOptionsBuilder.Options;
+                .UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging(true)
+                .EnableDetailedErrors(true);
 
+            var dbContextOptions = dbContextOptionsBuilder.Options;
             return new SqlServerDbContext(dbContextOptions);
+        }
+
+        private static async Task<List<User>> GetUsersWithRoles()
+        {
+            var users = await Task.Run(() => JsonConvert.DeserializeObject<List<User>>(File.ReadAllText(@"seedings\users.json")));
+            users.ForEach(u => u.PasswordHash = PasswordHasher.HashPassword(u.PasswordHash));
+
+            var roles = await GetRoles();
+            var adminRoleId = roles.ElementAt(0).RoleId;
+            var userRoleId = roles.ElementAt(1).RoleId;
+
+            users.ElementAt(0).RoleId = adminRoleId;
+            users.ElementAt(1).RoleId = userRoleId;
+
+            return users;
+        }
+
+        private static async Task<List<Role>> GetRoles()
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Role>>(File.ReadAllText(@"seedings\roles.json")));
+        }
+
+        private static async Task<List<TheatrePlay>> GetTheatrePlays()
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<TheatrePlay>>(File.ReadAllText(@"seedings\theatrePlays.json")));
+        }
+
+        private static async Task<List<Concert>> GetConcerts()
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Concert>>(File.ReadAllText(@"seedings\concerts.json")));
+        }
+
+        private static async Task<List<Film>> GetFilms()
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Film>>(File.ReadAllText(@"seedings\films.json")));
+        }
+
+        private static async Task<List<Cinema>> GetCinemas()
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Cinema>>(File.ReadAllText(@"seedings\cinemas.json")));
+        }
+
+        private static async Task<List<Session>> GetSessions()
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Session>>(File.ReadAllText(@"seedings\sessions.json")));
+        }
+
+        private static async Task<List<Film>> GetFilmsWithInfo()
+        {
+            var sessions = await GetSessions();
+            var cinemas = await GetCinemas();
+            var films = await GetFilms();
+
+            var f1 = films.ElementAt(0);
+            var f2 = films.ElementAt(1);
+
+            var c1 = cinemas.ElementAt(0);
+            var c2 = cinemas.ElementAt(1);
+            var c3 = cinemas.ElementAt(2);
+            var c4 = cinemas.ElementAt(3);
+            var c5 = cinemas.ElementAt(4);
+            var c6 = cinemas.ElementAt(5);
+
+
+            c1.Sessions = new List<Session>()
+            {
+                sessions.ElementAt(0),
+                sessions.ElementAt(1),
+                sessions.ElementAt(2)
+            };
+            c2.Sessions = new List<Session>()
+            {
+                sessions.ElementAt(3),
+                sessions.ElementAt(4),
+                sessions.ElementAt(5)
+            };
+            c3.Sessions = new List<Session>()
+            {
+                sessions.ElementAt(6),
+                sessions.ElementAt(7),
+                sessions.ElementAt(8)
+            };
+            c4.Sessions = new List<Session>()
+            {
+                sessions.ElementAt(9),
+                sessions.ElementAt(10),
+                sessions.ElementAt(11)
+            };
+            c5.Sessions = new List<Session>()
+            {
+                sessions.ElementAt(12),
+                sessions.ElementAt(13)
+            };
+            c6.Sessions = new List<Session>()
+            {
+                sessions.ElementAt(14)
+            };
+
+            f1.Cinemas = new List<Cinema> { c1, c2, c3 };
+            f2.Cinemas = new List<Cinema> { c4, c5, c6 };
+
+            return films;
         }
     };
 }

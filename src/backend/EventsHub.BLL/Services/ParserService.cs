@@ -3,11 +3,11 @@ using FluentScheduler;
 
 namespace EventsHub.BLL.Services
 {
-    public class ParserSchedulerService : IJob
+    public class ParserService : IJob
     {
         private ParserRunner parserRunner;
 
-        public ParserSchedulerService()
+        public ParserService()
         {
             parserRunner = new ParserRunner();
         }

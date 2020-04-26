@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsHub.Common", "src\bac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsHub.DataSeeding", "src\backend\EventsHub.DataSeeding\EventsHub.DataSeeding.csproj", "{C63A525A-EA39-4B8E-B14F-062778646ED6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsHub.Parser", "src\backend\EventsHub.Parser\EventsHub.Parser.csproj", "{052145D2-57EB-43B2-9B77-5F5D1F360073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsHub.Parser", "src\backend\EventsHub.Parser\EventsHub.Parser.csproj", "{052145D2-57EB-43B2-9B77-5F5D1F360073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsHub.Cleaner", "src\backend\EventsHub.Cleaner\EventsHub.Cleaner.csproj", "{0CFE280B-7C38-41DE-87FA-0C0409C14957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,6 +215,22 @@ Global
 		{052145D2-57EB-43B2-9B77-5F5D1F360073}.Release|x64.Build.0 = Release|Any CPU
 		{052145D2-57EB-43B2-9B77-5F5D1F360073}.Release|x86.ActiveCfg = Release|Any CPU
 		{052145D2-57EB-43B2-9B77-5F5D1F360073}.Release|x86.Build.0 = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|x64.Build.0 = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|ARM.Build.0 = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|x64.Build.0 = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -227,6 +245,7 @@ Global
 		{3E9488CD-7739-411D-A860-62D63DADE407} = {CA8BDD80-BC6E-4857-98D6-58023DDF3C1F}
 		{C63A525A-EA39-4B8E-B14F-062778646ED6} = {CA8BDD80-BC6E-4857-98D6-58023DDF3C1F}
 		{052145D2-57EB-43B2-9B77-5F5D1F360073} = {CA8BDD80-BC6E-4857-98D6-58023DDF3C1F}
+		{0CFE280B-7C38-41DE-87FA-0C0409C14957} = {CA8BDD80-BC6E-4857-98D6-58023DDF3C1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DAB7C410-BFD7-453F-85BE-673BA5FB7C4E}

@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EventsHub.Cleaner\EventsHub.Cleaner.csproj" />
     <ProjectReference Include="..\EventsHub.Common\EventsHub.Common.csproj" />
     <ProjectReference Include="..\EventsHub.DAL\EventsHub.DAL.csproj" />
     <ProjectReference Include="..\EventsHub.Parser\EventsHub.Parser.csproj" />

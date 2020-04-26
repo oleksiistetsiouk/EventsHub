@@ -36,7 +36,10 @@ namespace EventsHub.WebAPI.Controllers
                     return BadRequest("Invalid Request");
                 }
 
-                return Ok(token);
+                return Ok(new LoginResponse()
+                {
+                    Token = token,
+                });
             }
             catch (Exception ex)
             {

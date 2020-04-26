@@ -1,5 +1,5 @@
 ﻿using EventsHub.Mobile.Models;
-using EventsHub.Mobile.Services;
+using EventsHub.Mobile.Services.Client;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace EventsHub.Mobile.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public ICommand GetTheatrePlaysCommand
         {
             get

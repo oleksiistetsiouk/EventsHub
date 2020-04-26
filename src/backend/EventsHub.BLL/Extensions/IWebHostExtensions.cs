@@ -11,6 +11,7 @@ namespace EventsHub.BLL.Extensions
         {
             var scope = host.Services.CreateScope();
             JobManager.Initialize(new ParserSchedulerRegistry(scope));
+            JobManager.Initialize(new CleanerSchedulerRegistry(scope));
 
             return host;
         }
