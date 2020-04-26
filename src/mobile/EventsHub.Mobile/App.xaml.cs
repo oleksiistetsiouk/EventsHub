@@ -9,7 +9,7 @@ namespace EventsHub.Mobile
 {
     public partial class App : Application
     {
-        public static string BackendUrl = "http://xelazardasp-001-site1.itempurl.com";
+        public static string ApiUrl = "http://xelazardasp-001-site1.itempurl.com/api/";
         private static readonly FormsNavigationService navigationService = new FormsNavigationService();
         private static TheatreRepository theatreRepository;
         public const string DATABASE_NAME = "events-hub.db";

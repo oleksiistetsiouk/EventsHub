@@ -17,7 +17,7 @@ namespace EventsHub.Mobile.Services
         public AzureDataStore()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri($"{App.BackendUrl}/");
+            client.BaseAddress = new Uri($"{App.ApiUrl}/");
 
             items = new List<Item>();
         }

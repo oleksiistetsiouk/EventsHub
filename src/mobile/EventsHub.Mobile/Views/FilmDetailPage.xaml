@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EventsHub.Mobile.Views.FilmDetailPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image 
+                        HeightRequest="260"
+                        WidthRequest="195"
+                        HorizontalOptions="Start"
+	                    VerticalOptions ="Start">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding Film.PosterUrl}" 
+			                            CachingEnabled="true"/>
+                        </Image.Source>
+                    </Image>
+                    <Label Text="{Binding Film.Description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="{Binding Film.Director}"/>
+                    <Label Text="{Binding Film.Year}"/>
+                    <Label Text="{Binding Film.Genre}"/>
+                    <Label Text="{Binding Film.Country}"/>
+                    <Label Text="{Binding Film.Cast}"/>
+                    <Label Text="{Binding Title}"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

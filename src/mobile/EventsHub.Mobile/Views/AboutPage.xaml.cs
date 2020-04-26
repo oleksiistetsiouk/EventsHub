@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EventsHub.Mobile.Models;
+using EventsHub.Mobile.Services.Client;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

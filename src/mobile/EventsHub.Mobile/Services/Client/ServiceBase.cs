@@ -12,7 +12,7 @@ namespace EventsHub.Mobile.Services.Client
         public ServiceBase()
         {
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri($"{App.BackendUrl}/");
+            httpClient.BaseAddress = new Uri($"{App.ApiUrl}");
         }
     }
 }

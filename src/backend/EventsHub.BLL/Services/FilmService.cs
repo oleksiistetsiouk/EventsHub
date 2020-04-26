@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using EventsHub.BLL.DTO;
 using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
 using EventsHub.DAL.Entities.Film;
 using EventsHub.DAL.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.BLL.Services

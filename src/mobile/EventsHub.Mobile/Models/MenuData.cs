@@ -18,6 +18,12 @@ namespace EventsHub.Mobile.Models
                 Title = "About",
                 TargetType = typeof(AboutPage)
             });
+
+            this.Add(new MenuItem()
+            {
+                Title = "Films",
+                TargetType = typeof(FilmsPage)
+            });
         }
     }
 }
