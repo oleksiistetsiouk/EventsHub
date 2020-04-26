@@ -13,7 +13,7 @@ namespace EventsHub.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        public LoginViewModel ViewModel { get; set; } = new LoginViewModel(App.NavigationService);
+        public LoginViewModel ViewModel { get; set; } = new LoginViewModel();
 
         public LoginPage()
         {

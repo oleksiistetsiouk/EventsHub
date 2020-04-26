@@ -4,7 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="EventsHub.Mobile.Views.LoginPage">
+             x:Class="EventsHub.Mobile.Views.LoginPage"
+             Title="{Binding Title}">
+    
     <ContentPage.Content>
         <StackLayout>
             <Entry Placeholder="Email" FontSize="Small"

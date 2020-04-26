@@ -11,6 +11,10 @@
         <views:MenuPage />
     </MasterDetailPage.Master>
 
+    <MasterDetailPage.ToolbarItems>
+        <ToolbarItem Text="User" Clicked="ToUserPage_Clicked"/>
+    </MasterDetailPage.ToolbarItems>
+
     <MasterDetailPage.Detail>
         <NavigationPage>
             <NavigationPage.Icon>
@@ -19,7 +23,6 @@
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>
-                <!--<views:LoginPage />-->
                 <views:ItemsPage />
             </x:Arguments>
         </NavigationPage>

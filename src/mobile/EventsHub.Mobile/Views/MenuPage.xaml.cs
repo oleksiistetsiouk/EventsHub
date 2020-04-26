@@ -1,40 +1,56 @@
 ﻿using EventsHub.Mobile.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace EventsHub.Mobile.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MenuPage : ContentPage
     {
-        MainPage RootPage { get => Application.Current.MainPage as MainPage; }
-        List<HomeMenuItem> menuItems;
+        public ListView menu;
+
         public MenuPage()
         {
             InitializeComponent();
+            Title = "Events Hub";
+            //Icon = "menuicon.png";
+            BackgroundColor = Color.FromHex("#3C83B8");
+            Padding = new Thickness(10);
+            menu = new MenuListView();
 
-            menuItems = new List<HomeMenuItem>
+            var menuLabel = new ContentView
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
+                Padding = new Thickness(10, 15, 0, 15),
+                Content = new Label
+                {
+                    //TextColor = Color.FromHex("2C4D66"),
+                    TextColor = Color.White,
+
+                    Text = "Pocket Tender",
+                    FontAttributes = FontAttributes.Bold,
+                    FontSize = 18
+                }
             };
 
-            ListViewMenu.ItemsSource = menuItems;
-
-            ListViewMenu.SelectedItem = menuItems[0];
-            ListViewMenu.ItemSelected += async (sender, e) =>
+            var separator = new BoxView
             {
-                if (e.SelectedItem == null)
-                    return;
-
-                var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-                await RootPage.NavigateFromMenu(id);
+                Margin = new Thickness(0, 0, 0, 10),
+                HeightRequest = 0.5,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Color = Color.White
             };
+
+            var layout = new StackLayout
+            {
+                Spacing = 0,
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+            layout.Children.Add(menuLabel);
+            layout.Children.Add(separator);
+            layout.Children.Add(menu);
+
+            Content = layout;
         }
     }
 }

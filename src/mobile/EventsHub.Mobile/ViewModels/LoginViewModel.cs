@@ -1,29 +1,32 @@
-﻿using EventsHub.Mobile.Services;
+﻿using EventsHub.Mobile.Constants;
+using EventsHub.Mobile.Services;
 using EventsHub.Mobile.Services.Client;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace EventsHub.Mobile.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : BaseViewModel
     {
         private string email;
         private string password;
         private bool areCredentialsInvalid;
         private AuthenticationService authenticationService;
+        private readonly INavigationService navigationService;
 
-        public LoginViewModel(INavigationService navigationService)
+        public LoginViewModel()
         {
+            navigationService = App.NavigationService;
             authenticationService = new AuthenticationService();
-
+            Title = "Login";
             AuthenticateCommand = new Command(async () =>
             {
                 AreCredentialsInvalid = !await UserAuthenticated(Email, Password);
                 if (AreCredentialsInvalid) return;
 
-                await navigationService.GoBack();
+                //await navigationService.GoBack();
+                await navigationService.NavigateAsync(PageName.MainPage);
             });
 
             AreCredentialsInvalid = false;
@@ -73,13 +76,6 @@ namespace EventsHub.Mobile.ViewModels
                 areCredentialsInvalid = value;
                 OnPropertyChanged(nameof(AreCredentialsInvalid));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
