@@ -362,5 +362,4 @@ MigrationBackup/
 # EF Core Migrations
 /src/backend/EventsHub.DAL/Migrations/
 /src/backend/EventsHub.WebAPI/appsettings.json
-
-src/backend/EventsHub.DataSeeding/seedings/
+/src/backend/EventsHub.DataSeeding/seedings/
