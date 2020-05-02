@@ -34,5 +34,13 @@ namespace EventsHub.WebAPI.Controllers
 
             return Ok(films);
         }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetFilmsCount()
+        {
+            var count = await filmService.GetFilmsCount();
+
+            return Ok(count);
+        }
     }
 }

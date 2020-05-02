@@ -5,6 +5,7 @@ using EventsHub.Common.Helpers;
 using EventsHub.DAL.Entities.Film;
 using EventsHub.DAL.UnitOfWork;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.BLL.Services
@@ -41,6 +42,11 @@ namespace EventsHub.BLL.Services
             var filmsDto = mapper.Map<IEnumerable<Film>, IEnumerable<FilmDto>>(films);
 
             return filmsDto;
+        }
+
+        public async Task<int> GetFilmsCount()
+        {
+            return (await unitOfWork.Repository<Film>().GetAll()).Count();
         }
     }
 }
