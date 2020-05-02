@@ -3,6 +3,9 @@ using EventsHub.Mobile.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MonkeyCache.FileStore;
+using Acr.UserDialogs;
+using System;
 
 namespace EventsHub.Mobile.Services.Client
 {
@@ -23,15 +26,24 @@ namespace EventsHub.Mobile.Services.Client
 
         public async Task<IEnumerable<Film>> GetAllFilms(int pageNumber = 1)
         {
-            if (IsConnected)
+            var url = string.Format($"{Api.GetFilms}", pageNumber, Api.PageSize);
+            if (!isKeyExpired(url))
             {
-                IEnumerable<Film> films = null;
-                var json = await httpClient.GetStringAsync(string.Format($"{Api.GetFilms}", pageNumber, Api.PageSize));
-                films = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Film>>(json));
-
-                return films;
+                return Barrel.Current.Get<IEnumerable<Film>>(key: url);
             }
-            return null;
+
+            if (!IsConnected)
+            {
+                await Task.Yield();
+                UserDialogs.Instance.Toast("Please check your internet connection", TimeSpan.FromSeconds(2));
+            }
+
+            var json = await httpClient.GetStringAsync(url);
+            var films = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Film>>(json));
+
+            Barrel.Current.Add(key: url, data: films, expireIn: TimeSpan.FromDays(1));
+
+            return films;
         }
     }
 }

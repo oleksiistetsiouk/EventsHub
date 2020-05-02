@@ -14,6 +14,7 @@ namespace EventsHub.Mobile.ViewModels
         public Command LoadFilmsCommand { get; set; }
         private FilmService filmService;
         public int PageNumber { get; set; } = 1;
+        public int PageCount { get; set; }
 
         public FilmsViewModel()
         {

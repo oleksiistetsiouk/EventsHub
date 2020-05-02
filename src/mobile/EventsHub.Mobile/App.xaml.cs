@@ -2,8 +2,8 @@
 using EventsHub.Mobile.Services;
 using EventsHub.Mobile.Views;
 using EventsHub.Mobile.Constants;
-using EventsHub.Mobile.Repositories;
 using System.Windows.Input;
+using MonkeyCache.FileStore;
 
 namespace EventsHub.Mobile
 {
@@ -11,25 +11,11 @@ namespace EventsHub.Mobile
     {
         public static string ApiUrl = "http://xelazardasp-001-site1.itempurl.com/api/";
         private static readonly FormsNavigationService navigationService = new FormsNavigationService();
-        private static TheatreRepository theatreRepository;
-        public const string DATABASE_NAME = "events-hub.db";
 
         public static ICommand ToLoginPageCommand { get; set; }
         public static ICommand ToMainPageCommand { get; set; }
         public static ICommand ToAboutPageCommand { get; set; }
-
         public static INavigationService NavigationService { get; } = navigationService;
-        public static TheatreRepository Database
-        {
-            get
-            {
-                if (theatreRepository == null)
-                {
-                    theatreRepository = new TheatreRepository(DbHelper.GetDatabasePath(DATABASE_NAME));
-                }
-                return theatreRepository;
-            }
-        }
 
         public App()
         {
@@ -38,6 +24,7 @@ namespace EventsHub.Mobile
             ConfigureNavigation();
             AddNavigateCommands();
             MainPage = navigationService.SetRootPage(nameof(MainPage));
+            Barrel.ApplicationId = "EventsHub";
         }
 
         private void ConfigureNavigation()
