@@ -9,9 +9,6 @@
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadFilmsCommand}">
         <ScrollView>
             <StackLayout>
-                <StackLayout>
-                    <Button Text="Next" HorizontalOptions="End" Clicked="NextPage_Clicked"/>
-                </StackLayout>
                 <CollectionView x:Name="ItemsCollectionView"
                     ItemsSource="{Binding Films}">
                     <d:CollectionView.ItemsSource>

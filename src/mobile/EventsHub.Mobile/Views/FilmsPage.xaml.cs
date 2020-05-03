@@ -2,7 +2,6 @@
 using EventsHub.Mobile.ViewModels;
 using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Extended;
 using Xamarin.Forms.Xaml;
 
 namespace EventsHub.Mobile.Views
