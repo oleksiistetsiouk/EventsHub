@@ -26,7 +26,7 @@ namespace EventsHub.Mobile.Services.Client
 
         public async Task<IEnumerable<Film>> GetAllFilms(int pageNumber = 1)
         {
-            var url = string.Format($"{Api.GetFilms}", pageNumber, Api.PageSize);
+            var url = string.Format($"{Api.GetFilms}", pageNumber, AppConstants.PageSize);
             if (!isKeyExpired(url))
             {
                 return Barrel.Current.Get<IEnumerable<Film>>(key: url);
@@ -44,6 +44,21 @@ namespace EventsHub.Mobile.Services.Client
             Barrel.Current.Add(key: url, data: films, expireIn: TimeSpan.FromDays(1));
 
             return films;
+        }
+
+        public async Task<int> FilmsCount()
+        {
+            var url = Api.GetFilmsCount;
+            if (!isKeyExpired(url))
+            {
+                return Barrel.Current.Get<int>(key: url);
+            }
+
+            var json = await httpClient.GetStringAsync(Api.GetFilmsCount);
+            var count = await Task.Run(() => JsonConvert.DeserializeObject<int>(json));
+            Barrel.Current.Add(key: url, data: count, expireIn: TimeSpan.FromDays(1));
+
+            return count;
         }
     }
 }

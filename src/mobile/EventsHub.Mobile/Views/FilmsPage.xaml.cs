@@ -2,6 +2,7 @@
 using EventsHub.Mobile.ViewModels;
 using System;
 using Xamarin.Forms;
+using Xamarin.Forms.Extended;
 using Xamarin.Forms.Xaml;
 
 namespace EventsHub.Mobile.Views
@@ -31,12 +32,6 @@ namespace EventsHub.Mobile.Views
 
             if (viewModel.Films.Count == 0)
                 viewModel.IsBusy = true;
-        }
-
-        private void NextPage_Clicked(object sender, EventArgs e)
-        {
-            viewModel.PageNumber += 1;
-            viewModel.LoadFilmsCommand.Execute(viewModel.PageNumber);
         }
     }
 }

@@ -1,8 +1,11 @@
-﻿using EventsHub.Mobile.Models;
+﻿using Acr.UserDialogs;
+using EventsHub.Mobile.Constants;
+using EventsHub.Mobile.Extensions;
+using EventsHub.Mobile.Models;
 using EventsHub.Mobile.Services.Client;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -12,34 +15,36 @@ namespace EventsHub.Mobile.ViewModels
     {
         public ObservableCollection<Film> Films { get; set; }
         public Command LoadFilmsCommand { get; set; }
-        private FilmService filmService;
         public int PageNumber { get; set; } = 1;
-        public int PageCount { get; set; }
+        public int PagesCount { get; set; } = 0;
+        private FilmService filmService;
 
         public FilmsViewModel()
         {
             filmService = new FilmService();
             Title = "Films";
-            Films = new ObservableCollection<Film>();
-            LoadFilmsCommand = new Command(async () => await ExecuteLoadItemsCommand(PageNumber));
+            LoadFilmsCommand = new Command(async () => await ExecuteLoadFilmsCommand(PageNumber));
         }
 
-        async Task ExecuteLoadItemsCommand(object pageNumber)
+        private async Task ExecuteLoadFilmsCommand(object pageNumber)
         {
             IsBusy = true;
-            int pNumber = (int)pageNumber;
             try
             {
-                Films.Clear();
-                var items = await filmService.GetAllFilms(pNumber);
-                foreach (var item in items)
+                if (PagesCount == 0)
                 {
-                    Films.Add(item);
+                    var filmsCount = await filmService.FilmsCount();
+                    PagesCount = (int)Math.Ceiling((double)filmsCount / AppConstants.PageSize);
+                }
+                if ((int)pageNumber <= PagesCount)
+                {
+                    var films = await filmService.GetAllFilms((int)pageNumber);
+                    Films.AddRange(films);
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                await UserDialogs.Instance.AlertAsync(ex.Message);
             }
             finally
             {
