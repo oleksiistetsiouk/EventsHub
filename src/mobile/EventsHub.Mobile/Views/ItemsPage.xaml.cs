@@ -30,7 +30,12 @@ namespace EventsHub.Mobile.Views
             base.OnAppearing();
 
             if (viewModel.Items.Count == 0)
-                viewModel.IsBusy = true;
+                viewModel.LoadItemsCommand.Execute(null);
+
+            MessagingCenter.Subscribe<object, Item>(this, ItemsViewModel.ScrollToPreviousLastItem, (sender, item) =>
+            {
+                ItemsCollectionView.ScrollTo(item, ScrollToPosition.End);
+            });
         }
     }
 }

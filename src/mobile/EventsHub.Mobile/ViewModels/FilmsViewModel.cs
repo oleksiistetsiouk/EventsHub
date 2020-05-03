@@ -23,6 +23,7 @@ namespace EventsHub.Mobile.ViewModels
         {
             filmService = new FilmService();
             Title = "Films";
+            Films = new ObservableCollection<Film>();
             LoadFilmsCommand = new Command(async () => await ExecuteLoadFilmsCommand(PageNumber));
         }
 

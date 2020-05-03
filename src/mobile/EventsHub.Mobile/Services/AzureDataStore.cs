@@ -80,5 +80,10 @@ namespace EventsHub.Mobile.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false, int lastIndex = 0)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
