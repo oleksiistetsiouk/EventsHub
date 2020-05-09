@@ -30,7 +30,7 @@ namespace EventsHub.Mobile.Views
             base.OnAppearing();
 
             if (viewModel.Films.Count == 0)
-                viewModel.IsBusy = true;
+                viewModel.LoadFilmsCommand.Execute(null);
         }
     }
 }

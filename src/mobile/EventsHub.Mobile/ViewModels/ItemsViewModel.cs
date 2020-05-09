@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using EventsHub.Mobile.Models;
 using System.Linq;
+using EventsHub.Mobile.Extensions;
 
 namespace EventsHub.Mobile.ViewModels
 {
@@ -56,17 +57,13 @@ namespace EventsHub.Mobile.ViewModels
                 var items = await DataStore.GetItemsAsync(true, Items.Count);
 
                 var previousLastItem = Items.Last();
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
+                Items.AddRange(items);
                 Debug.WriteLine($"{items.Count()} {Items.Count} ");
                 if (items.Count() == 0)
                 {
                     ItemTreshold = -1;
                     return;
                 }
-                //MessagingCenter.Send<object, Item>(this, ScrollToPreviousLastItem, previousLastItem);
             }
             catch (Exception ex)
             {
@@ -90,10 +87,7 @@ namespace EventsHub.Mobile.ViewModels
                 ItemTreshold = 1;
                 Items.Clear();
                 var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
+                Items.AddRange(items);
             }
             catch (Exception ex)
             {
