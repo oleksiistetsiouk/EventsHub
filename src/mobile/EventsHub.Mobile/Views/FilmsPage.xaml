@@ -15,6 +15,10 @@
                             SelectionChanged="OnItemSelected"
                             RemainingItemsThresholdReachedCommand="{Binding FilmTresholdReachedCommand}"
                             RemainingItemsThreshold="{Binding FilmTreshold}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                        Span="2" />
+                </CollectionView.ItemsLayout>
                 <d:CollectionView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>First Item</x:String>
@@ -27,27 +31,27 @@
                 </d:CollectionView.ItemsSource>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10">
-                            <Image>
-                                <Image.Source>
-                                    <UriImageSource Uri="{Binding PosterUrl}" 
-		    	                        CachingEnabled="true"/>
-                                </Image.Source>
-                            </Image>
-                            <Label Text="{Binding Title}" 
-                                d:Text="{Binding .}"
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                            <Label Text="{Binding Description}" 
-                                d:Text="Item description"
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                            <StackLayout.GestureRecognizers>
+                        <Grid Padding="15, 15, 15, 15" RowSpacing="0" ColumnSpacing="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Frame Grid.Row="1"
+                                    CornerRadius="3" 
+                                    Padding="0">
+                                <Image Source="{Binding PosterUrl}"
+                                    HeightRequest="200"
+                                    Aspect="Fill"/>
+                            </Frame>
+
+                            <Label Grid.Row="2"
+                                   Text="{Binding Title}"
+                                   FontAttributes="Bold" />
+                            <Grid.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                            </Grid.GestureRecognizers>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
