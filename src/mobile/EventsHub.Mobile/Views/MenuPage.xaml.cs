@@ -23,10 +23,9 @@ namespace EventsHub.Mobile.Views
                 Padding = new Thickness(10, 15, 0, 15),
                 Content = new Label
                 {
-                    //TextColor = Color.FromHex("2C4D66"),
                     TextColor = Color.White,
 
-                    Text = "Pocket Tender",
+                    Text = "Events Hub",
                     FontAttributes = FontAttributes.Bold,
                     FontSize = 18
                 }

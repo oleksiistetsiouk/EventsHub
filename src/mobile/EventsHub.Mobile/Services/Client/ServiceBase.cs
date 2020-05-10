@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonkeyCache.FileStore;
+using System;
 using System.Net.Http;
 using Xamarin.Essentials;
 
@@ -12,7 +13,12 @@ namespace EventsHub.Mobile.Services.Client
         public ServiceBase()
         {
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri($"{App.BackendUrl}/");
+            httpClient.BaseAddress = new Uri($"{App.ApiUrl}");
+        }
+
+        protected bool isKeyExpired(string url)
+        {
+            return Barrel.Current.IsExpired(key: url);
         }
     }
 }

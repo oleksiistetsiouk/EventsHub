@@ -14,7 +14,7 @@ namespace EventsHub.Mobile.Services.Client
             var loginModel = new Login() { Email = email, Password = password };
 
             var serializedItem = JsonConvert.SerializeObject(loginModel);
-            var response = await httpClient.PostAsync($"api/account/signin", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
+            var response = await httpClient.PostAsync($"account/signin", new StringContent(serializedItem, Encoding.UTF8, "application/json"));
 
             var token = await response.Content.ReadAsStringAsync();
 

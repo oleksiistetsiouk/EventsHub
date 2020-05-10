@@ -9,5 +9,6 @@ namespace EventsHub.BLL.Interfaces
     {
         Task<FilmDto> GetFilm(int id);
         Task<IEnumerable<FilmDto>> GetAllFilms(FilterParams filterParams);
+        Task<int> GetFilmsCount();
     }
 }

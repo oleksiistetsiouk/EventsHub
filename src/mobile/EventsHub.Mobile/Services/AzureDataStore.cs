@@ -17,7 +17,7 @@ namespace EventsHub.Mobile.Services
         public AzureDataStore()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri($"{App.BackendUrl}/");
+            client.BaseAddress = new Uri($"{App.ApiUrl}/");
 
             items = new List<Item>();
         }
@@ -79,6 +79,11 @@ namespace EventsHub.Mobile.Services
             var response = await client.DeleteAsync($"api/item/{id}");
 
             return response.IsSuccessStatusCode;
+        }
+
+        public Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false, int lastIndex = 0)
+        {
+            throw new NotImplementedException();
         }
     }
 }

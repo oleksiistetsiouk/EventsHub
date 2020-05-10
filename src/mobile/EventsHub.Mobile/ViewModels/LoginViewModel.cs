@@ -25,7 +25,6 @@ namespace EventsHub.Mobile.ViewModels
                 AreCredentialsInvalid = !await UserAuthenticated(Email, Password);
                 if (AreCredentialsInvalid) return;
 
-                //await navigationService.GoBack();
                 await navigationService.NavigateAsync(PageName.MainPage);
             });
 

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using EventsHub.BLL.DTO;
 using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
 using EventsHub.DAL.Entities.Film;
 using EventsHub.DAL.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,10 +38,20 @@ namespace EventsHub.BLL.Services
         {
             var films = await unitOfWork.FilmRepository.GetAll(null, filterParams);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Film, FilmDto>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Film, FilmDto>();
+                cfg.CreateMap<Cinema, CinemaDto>();
+                cfg.CreateMap<Session, SessionDto>();
+            }).CreateMapper();
             var filmsDto = mapper.Map<IEnumerable<Film>, IEnumerable<FilmDto>>(films);
 
             return filmsDto;
+        }
+
+        public async Task<int> GetFilmsCount()
+        {
+            return (await unitOfWork.Repository<Film>().GetAll()).Count();
         }
     }
 }
