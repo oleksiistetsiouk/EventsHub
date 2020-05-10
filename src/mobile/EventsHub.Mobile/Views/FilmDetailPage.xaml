@@ -9,27 +9,41 @@
     
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Image 
-                        HeightRequest="260"
-                        WidthRequest="195"
-                        HorizontalOptions="Start"
-	                    VerticalOptions ="Start">
+            <StackLayout Padding="3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image HeightRequest="260"
+                            WidthRequest="195"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.RowSpan="5">
                         <Image.Source>
                             <UriImageSource Uri="{Binding Film.PosterUrl}" 
-			                            CachingEnabled="true"/>
+                                            CachingEnabled="true"/>
                         </Image.Source>
                     </Image>
-                    <Label Text="{Binding Film.Description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                </StackLayout>
-                <StackLayout>
-                    <Label Text="{Binding Film.Director}"/>
-                    <Label Text="{Binding Film.Year}"/>
-                    <Label Text="{Binding Film.Genre}"/>
-                    <Label Text="{Binding Film.Country}"/>
-                    <Label Text="{Binding Film.Cast}"/>
-                    <Label Text="{Binding Title}"/>
+                    <Label FontSize="12" Text="{Binding Film.Director, StringFormat='Режисер: {0}'}" Grid.Row="0" Grid.Column="2"/>
+                    <Label FontSize="12" Text="{Binding Film.Genre, StringFormat='Жанр: {0}'}" Grid.Row="1" Grid.Column="2"/>
+                    <Label FontSize="12" Text="{Binding Film.Year, StringFormat='Рік: {0}'}" Grid.Row="2" Grid.Column="2"/>
+                    <Label FontSize="12" Text="{Binding Film.Country, StringFormat='Країна: {0}'}" Grid.Row="3" Grid.Column="2"/>
+                    <Label FontSize="12" Text="{Binding Film.Cast, StringFormat='Актори: {0}'}" Grid.Row="4" Grid.Column="2" />
+                </Grid>
+                <StackLayout Padding="15, 0, 10, 0">
+                    <Label Text="Опис" FontSize="18" FontAttributes="Bold"/>
+                    <Label Text="{Binding Film.Description}"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Start"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

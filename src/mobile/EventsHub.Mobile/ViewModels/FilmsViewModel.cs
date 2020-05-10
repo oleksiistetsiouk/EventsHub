@@ -16,36 +16,38 @@ namespace EventsHub.Mobile.ViewModels
         public Command LoadFilmsCommand { get; set; }
         public Command FilmTresholdReachedCommand { get; set; }
         public Command RefreshFilmsCommand { get; set; }
-        private int _filmTreshold;
-        private bool _isRefreshing;
-        public int PageNumber { get; set; } = 1;
-        public int PagesCount { get; set; } = 0;
+
+        private int filmTreshold;
+        private bool isRefreshing;
+        private int pageNumber;
+        private int pagesCount;
         private FilmService filmService;
 
         public bool IsRefreshing
         {
-            get { return _isRefreshing; }
-            set { SetProperty(ref _isRefreshing, value); }
+            get { return isRefreshing; }
+            set { SetProperty(ref isRefreshing, value); }
         }
 
         public int FilmTreshold
         {
-            get { return _filmTreshold; }
-            set { SetProperty(ref _filmTreshold, value); }
+            get { return filmTreshold; }
+            set { SetProperty(ref filmTreshold, value); }
         }
 
         public FilmsViewModel()
         {
-            FilmTreshold = 4;
-            filmService = new FilmService();
             Title = "Films";
+            FilmTreshold = 4;
+            pageNumber = 1;
+            filmService = new FilmService();
             Films = new ObservableCollection<Film>();
             LoadFilmsCommand = new Command(async () => await ExecuteLoadFilmsCommand());
             FilmTresholdReachedCommand = new Command(async () => await FilmsTresholdReached());
             RefreshFilmsCommand = new Command(async () =>
             {
                 await ExecuteLoadFilmsCommand();
-                PageNumber = 1;
+                pageNumber = 1;
                 FilmTreshold = 4;
                 IsRefreshing = false;
             });
@@ -60,13 +62,13 @@ namespace EventsHub.Mobile.ViewModels
 
             try
             {
-                PageNumber++;
-                if (PageNumber > PagesCount)
+                pageNumber++;
+                if (pageNumber > pagesCount)
                 {
                     FilmTreshold = -1;
                     return;
                 }
-                var films = await filmService.GetAllFilms(PageNumber);
+                var films = await filmService.GetAllFilms(pageNumber);
                 Films.AddRange(films);
             }
             catch (Exception ex)
@@ -89,7 +91,7 @@ namespace EventsHub.Mobile.ViewModels
             try
             {
                 var filmsCount = await filmService.FilmsCount();
-                PagesCount = (int)Math.Ceiling((double)filmsCount / AppConstants.PageSize);
+                pagesCount = (int)Math.Ceiling((double)filmsCount / AppConstants.PageSize);
 
                 FilmTreshold = 4;
                 Films.Clear();
