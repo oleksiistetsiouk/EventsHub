@@ -32,8 +32,7 @@
                         <StackLayout Padding="10">
                             <Image>
                                 <Image.Source>
-                                    <UriImageSource Uri="{Binding PosterUrl}" 
-		    	                        CachingEnabled="true"/>
+                                    <UriImageSource Uri="{Binding PosterUrl}"/>
                                 </Image.Source>
                             </Image>
                             <Label Text="{Binding Text}" 
