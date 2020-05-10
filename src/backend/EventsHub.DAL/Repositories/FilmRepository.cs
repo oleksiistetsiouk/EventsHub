@@ -29,6 +29,8 @@ namespace EventsHub.DAL.Repositories
         public override async Task<IEnumerable<Film>> GetAll(Expression<Func<Film, bool>> predicate = null, FilterParams filterParams = null)
         {
             return await dbSet
+                .Include(f => f.Cinemas)
+                .ThenInclude(c => c.Sessions)
                 .Skip(filterParams.Skip)
                 .Take(filterParams.Take)
                 .ToListAsync();

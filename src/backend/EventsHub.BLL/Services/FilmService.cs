@@ -38,7 +38,12 @@ namespace EventsHub.BLL.Services
         {
             var films = await unitOfWork.FilmRepository.GetAll(null, filterParams);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Film, FilmDto>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Film, FilmDto>();
+                cfg.CreateMap<Cinema, CinemaDto>();
+                cfg.CreateMap<Session, SessionDto>();
+            }).CreateMapper();
             var filmsDto = mapper.Map<IEnumerable<Film>, IEnumerable<FilmDto>>(films);
 
             return filmsDto;
