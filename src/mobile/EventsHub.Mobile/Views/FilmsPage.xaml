@@ -41,7 +41,7 @@
                                     CornerRadius="3" 
                                     Padding="0" HasShadow="True">
                                 <Image Source="{Binding PosterUrl}"
-                                    HeightRequest="220"
+                                    HeightRequest="210"
                                     Aspect="Fill"/>
                             </Frame>
 
