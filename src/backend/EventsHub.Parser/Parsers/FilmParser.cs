@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventsHub.Parser.Parsers
 {
@@ -17,36 +18,35 @@ namespace EventsHub.Parser.Parsers
             Films = new List<Film>();
         }
 
-        public void Parse()
+        public async Task Parse()
         {
-            var filmLinks = GetFilmLinks(link);
-            ParseFilms(filmLinks);
+            var filmLinks = await GetFilmLinks(link);
+            await ParseFilms(filmLinks);
         }
 
-        private IEnumerable<string> GetFilmLinks(string link)
+        private async Task<IEnumerable<string>> GetFilmLinks(string link)
         {
             var web = new HtmlWeb();
-            var doc = web.Load(link);
+            var doc = await web.LoadFromWebAsync(link);
             var filmLinks = doc.DocumentNode.SelectNodes("//div[contains(@class, 'card__title')]")
                 .Select(n => n.ChildNodes.ElementAt(1).Attributes.First().Value);
 
             return filmLinks;
         }
 
-        private void ParseFilms(IEnumerable<string> filmLinks)
+        private async Task ParseFilms(IEnumerable<string> filmLinks)
         {
-            HtmlWeb web = new HtmlWeb();
+            var web = new HtmlWeb();
 
             foreach (var filmLink in filmLinks)
             {
-                var doc = web.Load(filmLink);
+                var doc = await web.LoadFromWebAsync(filmLink);
 
                 var title = doc.DocumentNode.SelectNodes("//div[contains(@class, 'inner-title')]").ElementAt(0).InnerText.Trim();
                 var info = doc.DocumentNode.SelectNodes("//div[contains(@class, 'info__text')]");
 
                 if (info == null)
                 {
-                    //Debug.Write(title + "\n");
                     continue;
                 }
 
@@ -86,13 +86,13 @@ namespace EventsHub.Parser.Parsers
                 };
 
                 var cinemaNodes = doc.GetElementbyId("movie-schedule").ChildNodes.Where(n => isValid(n.Name));
-                List<Cinema> cinemas = ParseCinemas(cinemaNodes, film);
+                var cinemas = ParseCinemas(cinemaNodes, film);
             }
         }
 
         private List<Cinema> ParseCinemas(IEnumerable<HtmlNode> cinemaNodes, Film film)
         {
-            List<Cinema> cinemas = new List<Cinema>();
+            var cinemas = new List<Cinema>();
 
             foreach (var cinemaNode in cinemaNodes)
             {
@@ -108,7 +108,7 @@ namespace EventsHub.Parser.Parsers
 
                 var sessionsInfo = cinemaInfo.ElementAt(1).ChildNodes.ElementAt(1).ChildNodes.Where(n => isValid(n.Name));
 
-                List<Session> sessions = ParseSessions(sessionsInfo, cinema, film);
+                var sessions = ParseSessions(sessionsInfo, cinema, film);
 
                 cinema.Sessions = sessions;
                 cinemas.Add(cinema);
@@ -122,12 +122,12 @@ namespace EventsHub.Parser.Parsers
 
         private List<Session> ParseSessions(IEnumerable<HtmlNode> sessionsInfo, Cinema cinema, Film film)
         {
-            List<Session> sessions = new List<Session>();
+            var sessions = new List<Session>();
 
             foreach (var sessionInfo in sessionsInfo)
             {
                 string directLink = null;
-                bool isShown = false;
+                var isShown = false;
                 if (sessionInfo.Attributes.Count() == 3)
                 {
                     if (cinema.CinemaName.Contains("Multiplex"))
@@ -144,8 +144,8 @@ namespace EventsHub.Parser.Parsers
                 }
 
                 var priceInfo = ParseSessionPrice(sessionInfo.Attributes.ElementAt(1).Value);
-                int priceFrom = priceInfo.Item1;
-                int priceTo = priceInfo.Item2;
+                var priceFrom = priceInfo.Item1;
+                var priceTo = priceInfo.Item2;
 
                 var time = DateTime.Parse(sessionInfo.InnerText.Split('\n').ElementAt(0));
 
@@ -173,15 +173,15 @@ namespace EventsHub.Parser.Parsers
         private string CreateSessionLink(string atrDate, string cinemaName)
         {
             var linkData = atrDate.Split(',', '.', '\\', '[', ']', '{', '}', '"', ':').Where(s => !string.IsNullOrEmpty(s));
-            string ssid = linkData.ElementAt(3);
-            string placeId = linkData.ElementAt(5); ;
-            string eventId = linkData.ElementAt(7);
+            var ssid = linkData.ElementAt(3);
+            var placeId = linkData.ElementAt(5); ;
+            var eventId = linkData.ElementAt(7);
 
-            if (cinemaName == "Multiplex")
+            if (cinemaName.ToLower().Contains("multiplex"))
             {
                 return string.Format($"https://multiplex.ua/ua/movie/{eventId}?wcid={placeId}&ssid={ssid}");
             }
-            else if (cinemaName == "Планета")
+            else if (cinemaName.ToLower().Contains("планета"))
             {
                 return string.Format($"https://pay.planetakino.ua/hall/{placeId}/{ssid}");
             }
@@ -218,7 +218,7 @@ namespace EventsHub.Parser.Parsers
             return (priceFrom, priceTo);
         }
 
-        public static bool isValid(string text)
+        private static bool isValid(string text)
         {
             return !text.StartsWith("#");
         }

@@ -13,7 +13,7 @@ namespace EventsHub.Cleaner
 
         public CleanerRunner()
         {
-            context = (SqlServerDbContext)CreateDbContext();
+            context = CreateDbContext();
             cleaners.AddRange(new List<ICleaner>() 
             {
                 new ConcertCleaner(context), 
@@ -30,7 +30,7 @@ namespace EventsHub.Cleaner
             }
         }
 
-        private DbContext CreateDbContext()
+        private SqlServerDbContext CreateDbContext()
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");

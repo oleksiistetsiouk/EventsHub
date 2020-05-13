@@ -13,4 +13,11 @@
     <ProjectReference Include="..\EventsHub.DAL\EventsHub.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\EventsHub.WebAPI\appsettings.json">
+      <Link>appsettings.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

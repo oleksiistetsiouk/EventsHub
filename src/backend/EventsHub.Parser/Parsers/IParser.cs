@@ -4,6 +4,6 @@ namespace EventsHub.Parser.Parsers
 {
     public interface IParser
     {
-        void Parse();
+        Task Parse();
     }
 }

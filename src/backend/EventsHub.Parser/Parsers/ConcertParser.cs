@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventsHub.Parser.Parsers
 {
@@ -33,10 +34,10 @@ namespace EventsHub.Parser.Parsers
             };
         }
 
-        public void Parse()
+        public async Task Parse()
         {
             var web = new HtmlWeb();
-            var doc = web.Load(link);
+            var doc = await web.LoadFromWebAsync(link);
 
             var events = doc.DocumentNode.SelectNodes("//a[contains(@class, 'event')]");
             foreach (var @event in events)

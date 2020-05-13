@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using System.Threading.Tasks;
 
 namespace EventsHub.Parser.Parsers
 {
@@ -6,16 +7,16 @@ namespace EventsHub.Parser.Parsers
     {
         private string link = "https://lviv-online.com/ua/events/theatre/page/1/";
         private int pageNumber;
+
         public TheatreParser()
+        {
+        }
+
+        public async Task Parse()
         {
             var web = new HtmlWeb();
             var doc = web.Load("https://lviv-online.com/ua/events/theatre/");
-            var n = doc.DocumentNode.SelectNodes("//div[contains(@class, 'page_navigation')]");
-        }
-
-        public void Parse()
-        {
-            throw new System.NotImplementedException();
+            var nodes = doc.DocumentNode.SelectNodes("//div[contains(@class, 'page_navigation')]");
         }
     }
 }
