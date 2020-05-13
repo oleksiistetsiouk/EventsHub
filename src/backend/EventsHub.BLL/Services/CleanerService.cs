@@ -14,7 +14,7 @@ namespace EventsHub.BLL.Services
 
         public void Execute()
         {
-            throw new System.NotImplementedException();
+            cleanerRunner.Run();
         }
     }
 }

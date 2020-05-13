@@ -2,7 +2,9 @@
 using EventsHub.DAL.SQLServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.Parser
@@ -56,6 +58,48 @@ namespace EventsHub.Parser
         {
             await dbContext.AddRangeAsync(entities);
             await dbContext.SaveChangesAsync();
+        }
+
+        private void Test()
+        {
+            DateTime now = DateTime.Now;
+            string linkTempate = $"https://www.032.ua/afisha/cat/1/kino?date={now.Year}-{now.Month}-{now.Day}";
+
+            //FilmParser fparser = new FilmParser(linkTempate);
+            //fparser.Parse();
+            //
+            //ConcertParser cparser = new ConcertParser();
+            //cparser.ParseConcerts();
+
+            //TheatreParser parser = new TheatreParser();
+
+            //using (var db = new EventsHubContext())
+            //{
+            //    db.Database.EnsureDeleted();
+            //    db.Database.EnsureCreated();
+
+            //    db.Films.Add(new Film() { Title = "Fight Club" });
+            //    db.Films.AddRange(fparser.Films);
+            //    db.Concerts.AddRange(cparser.Concerts);
+
+            //    db.SaveChanges();
+            //}
+            var context = (SqlServerDbContext)CreateDbContext();
+            using (context)
+            {
+                foreach (var film in context.Films.Take(5).ToList())
+                {
+                    Console.WriteLine(film.Title);
+                    foreach (var cinema in film.Cinemas)
+                    {
+                        Console.WriteLine("\t" + cinema.CinemaName);
+                        foreach (var session in cinema.Sessions)
+                        {
+                            Console.WriteLine("\t\t" + session.Time + "\n");
+                        }
+                    }
+                }
+            }
         }
     }
 }

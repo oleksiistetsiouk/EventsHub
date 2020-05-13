@@ -15,5 +15,6 @@ namespace EventsHub.DAL.Entities.Film
         public int? CinemaId { get; set; }
         public Film Film { get; set; }
         public Cinema Cinema { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

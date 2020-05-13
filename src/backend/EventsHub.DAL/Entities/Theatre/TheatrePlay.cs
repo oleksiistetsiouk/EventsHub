@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EventsHub.DAL.Entities.Theatre
 {
@@ -12,5 +10,6 @@ namespace EventsHub.DAL.Entities.Theatre
         public string Place { get; set; }
         public int PriceFrom { get; set; }
         public int PriceTo { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EventsHub.DAL.Entities.Film
 {
@@ -15,5 +16,6 @@ namespace EventsHub.DAL.Entities.Film
         public string PosterUrl { get; set; }
         public string TrailerUrl { get; set; }
         public List<Cinema> Cinemas { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
