@@ -15,7 +15,7 @@ namespace EventsHub.Mobile.Views
             menuPage = new MenuPage();
             MasterBehavior = MasterBehavior.Popover;
             Master = menuPage;
-            var displayPage = new ItemsPage();
+            var displayPage = new FilmsPage();
             Detail = new NavigationPage(displayPage);
 
             menuPage.menu.ItemSelected += onMenuItemSelected;

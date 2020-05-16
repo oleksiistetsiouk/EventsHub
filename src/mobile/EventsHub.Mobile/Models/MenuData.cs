@@ -9,16 +9,6 @@ namespace EventsHub.Mobile.Models
         {
             Add(new MenuItem()
             {
-                Title = "Browse",
-                TargetType = typeof(ItemsPage)
-            });
-            Add(new MenuItem()
-            {
-                Title = "About",
-                TargetType = typeof(AboutPage)
-            });
-            Add(new MenuItem()
-            {
                 Title = "Films",
                 TargetType = typeof(FilmsPage)
             });
@@ -31,6 +21,11 @@ namespace EventsHub.Mobile.Models
             {
                 Title = "Concerts",
                 TargetType = typeof(ConcertsPage)
+            });
+            Add(new MenuItem()
+            {
+                Title = "About",
+                TargetType = typeof(AboutPage)
             });
         }
     }
