@@ -16,7 +16,7 @@ namespace EventsHub.Mobile.Services.Client
             httpClient.BaseAddress = new Uri($"{App.ApiUrl}");
         }
 
-        protected bool isKeyExpired(string url)
+        protected bool IsKeyExpired(string url)
         {
             return Barrel.Current.IsExpired(key: url);
         }
