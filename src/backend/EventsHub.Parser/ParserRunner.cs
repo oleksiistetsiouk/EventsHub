@@ -2,7 +2,6 @@
 using EventsHub.Parser.Parsers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Threading.Tasks;
 
 namespace EventsHub.Parser
@@ -11,11 +10,8 @@ namespace EventsHub.Parser
     {
         public async Task Run()
         {
-            var now = DateTime.Now;
-            var linkTempate = $"https://www.032.ua/afisha/cat/1/kino?date={now.Year}-{now.Month}-{now.Day}";
-
-            var fparser = new FilmParser(linkTempate);
-            fparser.Parse();
+            var fparser = new FilmParser();
+            await fparser.Parse();
 
             using (var db = CreateDbContext())
             {
@@ -38,26 +34,6 @@ namespace EventsHub.Parser
             var dbContextOptions = dbContextOptionsBuilder.Options;
 
             return new SqlServerDbContext(dbContextOptions);
-        }
-
-        private void Test()
-        {
-            //formatted output
-            //using (var context = CreateDbContext())
-            //{
-            //    foreach (var film in context.Films.Take(5).ToList())
-            //    {
-            //        Console.WriteLine(film.Title);
-            //        foreach (var cinema in film.Cinemas)
-            //        {
-            //            Console.WriteLine("\t" + cinema.CinemaName);
-            //            foreach (var session in cinema.Sessions)
-            //            {
-            //                Console.WriteLine("\t\t" + session.Time + "\n");
-            //            }
-            //        }
-            //    }
-            //}
         }
     }
 }

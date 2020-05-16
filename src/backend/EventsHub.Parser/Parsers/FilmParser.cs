@@ -9,19 +9,26 @@ namespace EventsHub.Parser.Parsers
 {
     public class FilmParser : IParser
     {
-        private readonly string link;
         public List<Film> Films { get; set; }
+        private static readonly string siteUrlTemplate = $"https://www.032.ua/afisha/cat/1/kino?date={0}-{1}-{2}";
 
-        public FilmParser(string link)
+        public FilmParser()
         {
-            this.link = link;
             Films = new List<Film>();
         }
 
         public async Task Parse()
         {
+            var link = GetActualSiteUrl();
             var filmLinks = await GetFilmLinks(link);
+
             await ParseFilms(filmLinks);
+        }
+
+        public string GetActualSiteUrl()
+        {
+            var actualDate = DateTime.Now;
+            return string.Format(siteUrlTemplate, actualDate.Year, actualDate.Month, actualDate.Day);
         }
 
         private async Task<IEnumerable<string>> GetFilmLinks(string link)
