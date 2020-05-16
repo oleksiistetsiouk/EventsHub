@@ -7,30 +7,30 @@ using Xamarin.Forms.Xaml;
 namespace EventsHub.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FilmsPage : ContentPage
+    public partial class TheatrePlaysPage : ContentPage
     {
-        private FilmsViewModel viewModel;
+        private TheatrePlaysViewModel viewModel;
 
-        public FilmsPage()
+        public TheatrePlaysPage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new FilmsViewModel();
+            BindingContext = viewModel = new TheatrePlaysViewModel();
         }
 
         async void OnItemSelected(object sender, EventArgs args)
         {
             var layout = (BindableObject)sender;
-            var film = (Film)layout.BindingContext;
-            await Navigation.PushAsync(new FilmDetailPage(new FilmDetailViewModel(film)));
+            var play = (TheatrePlay)layout.BindingContext;
+            await Navigation.PushAsync(new TheatrePlayDetailPage(new TheatrePlayDetailViewModel(play)));
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (viewModel.Films.Count == 0)
-                viewModel.LoadFilmsCommand.Execute(null);
+            if (viewModel.TheatrePlays.Count == 0)
+                viewModel.LoadPlaysCommand.Execute(null);
         }
     }
 }
