@@ -9,5 +9,6 @@ namespace EventsHub.BLL.Interfaces
     {
         Task<TheatrePlayDto> GetTheatrePlay(int id);
         Task<IEnumerable<TheatrePlayDto>> GetAllTheatrePlays(FilterParams filterParams);
+        Task<int> GetPlaysCount();
     }
 }
