@@ -23,7 +23,7 @@ namespace EventsHub.Mobile.Views
 
             var play = new TheatrePlay
             {
-                Name = "Play 1",
+                Title = "Play 1",
                 Description = "This is an film description."
             };
 

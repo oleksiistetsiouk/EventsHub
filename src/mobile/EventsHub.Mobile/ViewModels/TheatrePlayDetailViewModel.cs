@@ -8,7 +8,7 @@ namespace EventsHub.Mobile.ViewModels
 
         public TheatrePlayDetailViewModel(TheatrePlay play = null)
         {
-            Title = play?.Name;
+            Title = play?.Title;
             TheatrePlay = play;
         }
     }
