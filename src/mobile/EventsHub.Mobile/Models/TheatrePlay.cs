@@ -1,4 +1,6 @@
-﻿namespace EventsHub.Mobile.Models
+﻿using System;
+
+namespace EventsHub.Mobile.Models
 {
     public class TheatrePlay
     {
