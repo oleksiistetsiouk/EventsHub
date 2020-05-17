@@ -4,12 +4,31 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="EventsHub.Mobile.Views.ConcertDetailPage">
+             x:Class="EventsHub.Mobile.Views.ConcertDetailPage"
+             Title="{Binding Title}">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Padding="15, 10, 10, 5">
+                <Image HeightRequest="250"
+                       WidthRequest="250"
+                       Margin="10">
+                    <Image.Source>
+                        <UriImageSource Uri="{Binding Concert.PosterUrl}" 
+                                            CachingEnabled="true"/>
+                    </Image.Source>
+                </Image>
+                <Label FontSize="12" Text="{Binding Concert.Place, StringFormat='Місце: {0}'}"/>
+                <Label FontSize="12" Text="{Binding Concert.Price, StringFormat='Ціна: {0}'}"/>
+                <Label FontSize="12" Text="{Binding Concert.Date, StringFormat='Дата: {0:HH:mm, dd.MM.yyyy}'}"/>
+                <Label Text="Опис" FontSize="16" FontAttributes="Bold"/>
+                <Label FontSize="12" Text="{Binding Concert.Description}"/>
+                <Button Text="Купити"
+                        Margin="10"
+                        BackgroundColor="Orange"
+                        Command="{Binding Concert.OpenWebCommand}"
+                        CommandParameter="{Binding Concert.DirectLink}"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
