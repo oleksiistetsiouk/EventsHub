@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Windows.Input;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace EventsHub.Mobile.Models
 {
@@ -11,5 +14,12 @@ namespace EventsHub.Mobile.Models
         public int PriceTo { get; set; }
         public bool IsShown { get; set; }
         public string SessionType { get; set; }
+        public string PriceRange => PriceTo == 0 ? PriceFrom.ToString() : $"{PriceFrom}-{PriceTo}";
+        public ICommand OpenWebCommand { get; }
+
+        public Session()
+        {
+            OpenWebCommand = new Command<string>(async (string link) => await Browser.OpenAsync(link));
+        }
     }
 }

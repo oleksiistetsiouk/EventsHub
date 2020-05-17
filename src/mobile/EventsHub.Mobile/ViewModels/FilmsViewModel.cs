@@ -37,7 +37,7 @@ namespace EventsHub.Mobile.ViewModels
 
         public FilmsViewModel()
         {
-            Title = "Films";
+            Title = "Кіно";
             FilmTreshold = 4;
             pageNumber = 1;
             filmService = new FilmService();

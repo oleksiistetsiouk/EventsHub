@@ -9,8 +9,9 @@ namespace EventsHub.BLL.Scheduler
         public ParserSchedulerRegistry(IServiceScope service)
         {
             Schedule(service.ServiceProvider.GetRequiredService<ParserService>())
-                .ToRunEvery(20)
-                .Seconds();
+                .ToRunEvery(1)
+                .Days()
+                .At(1, 0);
         }
     }
 }

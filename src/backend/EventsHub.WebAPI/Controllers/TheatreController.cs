@@ -34,5 +34,13 @@ namespace EventsHub.WebAPI.Controllers
 
             return Ok(plays);
         }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetPlaysCount()
+        {
+            var count = await theatreService.GetPlaysCount();
+
+            return Ok(count);
+        }
     }
 }

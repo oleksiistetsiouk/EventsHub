@@ -9,8 +9,9 @@ namespace EventsHub.BLL.Scheduler
         public CleanerSchedulerRegistry(IServiceScope service)
         {
             Schedule(service.ServiceProvider.GetRequiredService<CleanerService>())
-                .ToRunEvery(60)
-                .Seconds();
+                .ToRunEvery(1)
+                .Days()
+                .At(1, 0);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class AppConstants
     {
-        public const int PageSize = 4;
+        public const int PageSize = 6;
     }
 }

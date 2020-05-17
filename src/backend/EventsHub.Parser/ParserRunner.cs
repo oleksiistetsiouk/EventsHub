@@ -1,8 +1,7 @@
-﻿using EventsHub.DAL.Entities.Theatre;
-using EventsHub.DAL.SQLServer;
+﻿using EventsHub.DAL.SQLServer;
+using EventsHub.Parser.Parsers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventsHub.Parser
@@ -11,32 +10,17 @@ namespace EventsHub.Parser
     {
         public async Task Run()
         {
-            using var dbContext = CreateDbContext();
+            var fparser = new FilmParser();
+            await fparser.Parse();
 
-            var theatrePlays = new List<TheatrePlay>()
+            using (var db = CreateDbContext())
             {
-                new TheatrePlay()
-                {
-                    Name ="New play",
-                    Description ="Romantic story",
-                    Place ="Zankovetskia teatre",
-                    PriceFrom = 100,
-                    PriceTo = 190
-                },
-                new TheatrePlay
-                {
-                    Name ="new Gamlet",
-                    Description ="You mast watch it twice!!!",
-                    Place ="Operniy teatre",
-                    PriceFrom = 110,
-                    PriceTo = 210
-                }
-            };
-
-            await Seed<TheatrePlay>(dbContext, theatrePlays);
+                db.Films.AddRange(fparser.Films);
+                db.SaveChanges();
+            }
         }
 
-        private DbContext CreateDbContext()
+        private SqlServerDbContext CreateDbContext()
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");
@@ -50,12 +34,6 @@ namespace EventsHub.Parser
             var dbContextOptions = dbContextOptionsBuilder.Options;
 
             return new SqlServerDbContext(dbContextOptions);
-        }
-
-        public async Task Seed<TEntity>(DbContext dbContext, IEnumerable<TEntity> entities) where TEntity : class
-        {
-            await dbContext.AddRangeAsync(entities);
-            await dbContext.SaveChangesAsync();
         }
     }
 }

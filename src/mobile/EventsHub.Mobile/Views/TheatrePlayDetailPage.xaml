@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="EventsHub.Mobile.Views.TheatrePlayDetailPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="15, 10, 10, 5">
+                <Image HeightRequest="250"
+                        WidthRequest="250"
+                       Margin="10">
+                    <Image.Source>
+                        <UriImageSource Uri="{Binding TheatrePlay.PosterUrl}" 
+                                            CachingEnabled="true"/>
+                    </Image.Source>
+                </Image>
+                <Label FontSize="12" Text="{Binding TheatrePlay.Place, StringFormat='Місце: {0}'}"/>
+                <Label FontSize="12" Text="{Binding TheatrePlay.PriceRange, StringFormat='Ціна: {0}'}"/>
+                <Label FontSize="12" Text="{Binding TheatrePlay.Date, StringFormat='Дата: {0:HH:mm, dd.MM.yyyy}'}"/>
+                <Label Text="Опис" FontSize="16" FontAttributes="Bold"/>
+                <Label FontSize="12" Text="{Binding TheatrePlay.Description}"/>
+                <Button Text="Купити"
+                        Margin="10"
+                        BackgroundColor="Orange"
+                        Command="{Binding TheatrePlay.OpenWebCommand}"
+                        CommandParameter="{Binding TheatrePlay.DirectLink}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

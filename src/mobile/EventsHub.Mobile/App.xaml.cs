@@ -20,7 +20,6 @@ namespace EventsHub.Mobile
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<MockDataStore>();
             ConfigureNavigation();
             AddNavigateCommands();
             MainPage = navigationService.SetRootPage(nameof(MainPage));
@@ -31,7 +30,6 @@ namespace EventsHub.Mobile
         {
             NavigationService.Configure(PageName.MainPage, typeof(MainPage));
             NavigationService.Configure(PageName.MenuPage, typeof(MenuPage));
-            NavigationService.Configure(PageName.ItemsPage, typeof(ItemsPage));
             NavigationService.Configure(PageName.LoginPage, typeof(LoginPage));
             NavigationService.Configure(PageName.AboutPage, typeof(AboutPage));
         }

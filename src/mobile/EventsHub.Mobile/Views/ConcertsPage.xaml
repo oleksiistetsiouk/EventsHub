@@ -4,18 +4,18 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="EventsHub.Mobile.Views.FilmsPage"
+             x:Class="EventsHub.Mobile.Views.ConcertsPage"
              Title="{Binding Title}">
 
     <Grid>
-        <RefreshView Command="{Binding RefreshFilmsCommand}"
+        <RefreshView Command="{Binding RefreshConcertsCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <CollectionView x:Name="ItemsCollectionView"
-                            ItemsSource="{Binding Films}"
+                            ItemsSource="{Binding Concerts}"
                             VerticalOptions="FillAndExpand"
                             SelectionChanged="OnItemSelected"
-                            RemainingItemsThresholdReachedCommand="{Binding FilmTresholdReachedCommand}"
-                            RemainingItemsThreshold="{Binding FilmTreshold}">
+                            RemainingItemsThresholdReachedCommand="{Binding ConcertTresholdReachedCommand}"
+                            RemainingItemsThreshold="{Binding ConcertTreshold}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                         Span="2" />

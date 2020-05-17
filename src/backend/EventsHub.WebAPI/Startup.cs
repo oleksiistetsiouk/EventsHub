@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EventsHub.Mobile.Models;
 using EventsHub.BLL.Extensions;
 using EventsHub.BLL.Services;
 using EventsHub.BLL.Configurations;
@@ -36,8 +35,6 @@ namespace EventsHub.Mobile.Web
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SmarterAspConnectionString"));
             services.AddUnitOfWork();
             ConfigureAuth(services);
-            //repositories
-            services.AddSingleton<IItemRepository, ItemRepository>();
             //services
             services.AddTransient<ParserService>();
             services.AddTransient<CleanerService>();

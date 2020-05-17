@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Windows.Input;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
-namespace EventsHub.DAL.Entities.Concert
+namespace EventsHub.Mobile.Models
 {
     public class Concert
     {
-        public int ConcertId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
@@ -12,6 +14,11 @@ namespace EventsHub.DAL.Entities.Concert
         public string PosterUrl { get; set; }
         public string DirectLink { get; set; }
         public string Place { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public ICommand OpenWebCommand { get; }
+
+        public Concert()
+        {
+            OpenWebCommand = new Command<string>(async (string link) => await Browser.OpenAsync(link));
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace EventsHub.Mobile.ViewModels
     {
         public AboutViewModel()
         {
-            Title = "About";
+            Title = "Про додаток";
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
         }
 

@@ -39,5 +39,10 @@ namespace EventsHub.BLL.Services
 
             return plays;
         }
+
+        public async Task<int> GetConcertsCount()
+        {
+            return (await unitOfWork.Repository<Concert>().GetAll()).Count();
+        }
     }
 }

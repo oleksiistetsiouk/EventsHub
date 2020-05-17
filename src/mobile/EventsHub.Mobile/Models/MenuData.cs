@@ -7,15 +7,24 @@ namespace EventsHub.Mobile.Models
     {
         public MenuData()
         {
-            this.Add(new MenuItem()
+            Add(new MenuItem()
             {
-                Title = "Browse",
-                TargetType = typeof(ItemsPage)
+                Title = "Кіно",
+                TargetType = typeof(FilmsPage)
             });
-
-            this.Add(new MenuItem()
+            Add(new MenuItem()
             {
-                Title = "About",
+                Title = "Театр",
+                TargetType = typeof(TheatrePlaysPage)
+            });
+            Add(new MenuItem()
+            {
+                Title = "Концерти",
+                TargetType = typeof(ConcertsPage)
+            });
+            Add(new MenuItem()
+            {
+                Title = "Про додаток",
                 TargetType = typeof(AboutPage)
             });
 

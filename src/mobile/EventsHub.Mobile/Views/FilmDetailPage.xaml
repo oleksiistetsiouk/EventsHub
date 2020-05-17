@@ -9,7 +9,7 @@
     
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="3">
+            <StackLayout Padding="8, 10, 5, 5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -36,11 +36,60 @@
                         <Label FontSize="12" Text="{Binding Film.Cast, StringFormat='Актори: {0}'}"/>
                     </StackLayout>
                 </Grid>
-                <StackLayout Padding="15, 0, 10, 0">
+                <StackLayout>
                     <Label Text="Опис" FontSize="18" FontAttributes="Bold"/>
                     <Label Text="{Binding Film.Description}"
                             HorizontalOptions="FillAndExpand"
                             HorizontalTextAlignment="Start"/>
+                    <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Black"/>
+                </StackLayout>
+                <StackLayout>
+                    <!--Collection of cinemas-->
+                    <CollectionView x:Name="CinemasCollectionView"
+                                    ItemsSource="{Binding Film.Cinemas}"
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalScrollBarVisibility="Never"
+                                    VerticalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Horizontal" Span="6" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Label FontSize="13" Text="{Binding CinemaName}"/>
+                                    <Label FontSize="11" Text="{Binding Address}"/>
+                                    <!--Collection of sessions-->
+                                    <CollectionView x:Name="SessionsCollectionView"
+                                                    ItemsSource="{Binding Sessions}"
+                                                    VerticalOptions="FillAndExpand">
+                                        <CollectionView.ItemsLayout>
+                                            <GridItemsLayout Orientation="Vertical"
+                                            Span="5" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Padding="5, 5, 15, 5" ColumnSpacing="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Frame BorderColor="LightGray" HasShadow="True" Grid.Row="0" Padding="5">
+                                                        <StackLayout>
+                                                            <Label FontSize="10" Text="{Binding Time, StringFormat='{0:HH:mm}'}"/>
+                                                            <Label FontSize="10" Text="{Binding PriceRange}"/>
+                                                        </StackLayout>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="{Binding DirectLink}"/>
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                    <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="LightGray"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

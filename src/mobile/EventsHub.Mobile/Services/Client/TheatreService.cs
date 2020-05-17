@@ -1,37 +1,51 @@
-﻿using EventsHub.Mobile.Models;
+﻿using Acr.UserDialogs;
+using EventsHub.Mobile.Constants;
+using EventsHub.Mobile.Models;
+using MonkeyCache.FileStore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace EventsHub.Mobile.Services.Client
 {
     public class TheatreService : ServiceBase
     {
-        public async Task<TheatrePlay> GetTheatrePlay(int id)
+        public async Task<IEnumerable<TheatrePlay>> GetAllTheatrePlays(int pageNumber = 1)
         {
-            if (IsConnected)
+            var url = string.Format($"{Api.GetPlays}", pageNumber, AppConstants.PageSize);
+            if (!IsKeyExpired(url))
             {
-                TheatrePlay play = null;
-                var json = await httpClient.GetStringAsync($"api/theatre/{id}");
-                play = await Task.Run(() => JsonConvert.DeserializeObject<TheatrePlay>(json));
-
-                return play;
+                return Barrel.Current.Get<IEnumerable<TheatrePlay>>(key: url);
             }
-            return null;
+
+            if (!IsConnected)
+            {
+                await Task.Yield();
+                UserDialogs.Instance.Toast("Please check your internet connection", TimeSpan.FromSeconds(2));
+            }
+
+            var json = await httpClient.GetStringAsync(url);
+            var plays = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<TheatrePlay>>(json));
+
+            Barrel.Current.Add(key: url, data: plays, expireIn: TimeSpan.FromDays(1));
+
+            return plays;
         }
 
-        public async Task<IEnumerable<TheatrePlay>> GetAllTheatrePlays()
+        public async Task<int> PlaysCount()
         {
-            if (IsConnected)
+            var url = Api.GetPlaysCount;
+            if (!IsKeyExpired(url))
             {
-                IEnumerable<TheatrePlay> plays = null;
-                var json = await httpClient.GetStringAsync($"api/theatre");
-                plays = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<TheatrePlay>>(json));
-
-                return plays;
+                return Barrel.Current.Get<int>(key: url);
             }
-            return null;
+
+            var json = await httpClient.GetStringAsync(url);
+            var count = await Task.Run(() => JsonConvert.DeserializeObject<int>(json));
+            Barrel.Current.Add(key: url, data: count, expireIn: TimeSpan.FromDays(1));
+
+            return count;
         }
     }
 }

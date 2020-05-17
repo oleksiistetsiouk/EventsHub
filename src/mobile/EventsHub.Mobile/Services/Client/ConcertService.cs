@@ -1,22 +1,22 @@
-﻿using EventsHub.Mobile.Constants;
+﻿using Acr.UserDialogs;
+using EventsHub.Mobile.Constants;
 using EventsHub.Mobile.Models;
+using MonkeyCache.FileStore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MonkeyCache.FileStore;
-using Acr.UserDialogs;
-using System;
 
 namespace EventsHub.Mobile.Services.Client
 {
-    class FilmService : ServiceBase
+    public class ConcertService : ServiceBase
     {
-        public async Task<IEnumerable<Film>> GetAllFilms(int pageNumber = 1)
+        public async Task<IEnumerable<Concert>> GetAllConcerts(int pageNumber = 1)
         {
-            var url = string.Format($"{Api.GetFilms}", pageNumber, AppConstants.PageSize);
+            var url = string.Format($"{Api.GetConcerts}", pageNumber, AppConstants.PageSize);
             if (!IsKeyExpired(url))
             {
-                return Barrel.Current.Get<IEnumerable<Film>>(key: url);
+                return Barrel.Current.Get<IEnumerable<Concert>>(key: url);
             }
 
             if (!IsConnected)
@@ -26,22 +26,22 @@ namespace EventsHub.Mobile.Services.Client
             }
 
             var json = await httpClient.GetStringAsync(url);
-            var films = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Film>>(json));
+            var concerts = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Concert>>(json));
 
-            Barrel.Current.Add(key: url, data: films, expireIn: TimeSpan.FromDays(1));
+            Barrel.Current.Add(key: url, data: concerts, expireIn: TimeSpan.FromDays(1));
 
-            return films;
+            return concerts;
         }
 
-        public async Task<int> FilmsCount()
+        public async Task<int> ConcertsCount()
         {
-            var url = Api.GetFilmsCount;
+            var url = Api.GetConcertsCount;
             if (!IsKeyExpired(url))
             {
                 return Barrel.Current.Get<int>(key: url);
             }
 
-            var json = await httpClient.GetStringAsync(Api.GetFilmsCount);
+            var json = await httpClient.GetStringAsync(url);
             var count = await Task.Run(() => JsonConvert.DeserializeObject<int>(json));
             Barrel.Current.Add(key: url, data: count, expireIn: TimeSpan.FromDays(1));
 
