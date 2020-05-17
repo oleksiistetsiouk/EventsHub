@@ -5,11 +5,61 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="EventsHub.Mobile.Views.ConcertsPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <Grid>
+        <RefreshView Command="{Binding RefreshConcertsCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView x:Name="ItemsCollectionView"
+                            ItemsSource="{Binding Concerts}"
+                            VerticalOptions="FillAndExpand"
+                            SelectionChanged="OnItemSelected"
+                            RemainingItemsThresholdReachedCommand="{Binding ConcertTresholdReachedCommand}"
+                            RemainingItemsThreshold="{Binding ConcertTreshold}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                        Span="2" />
+                </CollectionView.ItemsLayout>
+                <d:CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>First Item</x:String>
+                        <x:String>Second Item</x:String>
+                        <x:String>Third Item</x:String>
+                        <x:String>Fourth Item</x:String>
+                        <x:String>Fifth Item</x:String>
+                        <x:String>Sixth Item</x:String>
+                    </x:Array>
+                </d:CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15, 10, 15, 10" RowSpacing="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Frame Grid.Row="1"
+                                    CornerRadius="3" 
+                                    Padding="0" HasShadow="True">
+                                <Image Source="{Binding PosterUrl}"
+                                    HeightRequest="210"
+                                    Aspect="Fill"/>
+                            </Frame>
+
+                            <Label Grid.Row="2"
+                                   Text="{Binding Title}"
+                                   FontAttributes="Bold" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           HeightRequest="30"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           WidthRequest="30"/>
+    </Grid>
 </ContentPage>
