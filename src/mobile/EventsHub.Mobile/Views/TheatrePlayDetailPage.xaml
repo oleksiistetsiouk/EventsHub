@@ -6,10 +6,27 @@
              mc:Ignorable="d"
              x:Class="EventsHub.Mobile.Views.TheatrePlayDetailPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Padding="15, 10, 10, 5">
+                <Image HeightRequest="250"
+                        WidthRequest="250"
+                       Margin="10">
+                    <Image.Source>
+                        <UriImageSource Uri="{Binding TheatrePlay.PosterUrl}" 
+                                            CachingEnabled="true"/>
+                    </Image.Source>
+                </Image>
+                <Label FontSize="12" Text="{Binding TheatrePlay.Place, StringFormat='Місце: {0}'}"/>
+                <Label FontSize="12" Text="{Binding TheatrePlay.PriceRange, StringFormat='Ціна: {0}'}"/>
+                <Label FontSize="12" Text="{Binding TheatrePlay.Date, StringFormat='Дата: {0:HH:mm, dd.MM.yyyy}'}"/>
+                <Label Text="Опис" FontSize="16" FontAttributes="Bold"/>
+                <Label FontSize="12" Text="{Binding TheatrePlay.Description}"/>
+                <Button Text="Купити"
+                        Margin="10"
+                        BackgroundColor="Orange"
+                        Command="{Binding TheatrePlay.OpenWebCommand}"
+                        CommandParameter="{Binding TheatrePlay.DirectLink}"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

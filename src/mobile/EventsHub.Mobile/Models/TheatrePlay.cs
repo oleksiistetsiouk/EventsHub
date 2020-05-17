@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Windows.Input;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace EventsHub.Mobile.Models
 {
@@ -12,5 +15,12 @@ namespace EventsHub.Mobile.Models
         public DateTime Date { get; set; }
         public string PosterUrl { get; set; }
         public string DirectLink { get; set; }
+        public string PriceRange => PriceTo == 0 ? PriceFrom.ToString() : $"{PriceFrom}-{PriceTo}";
+        public ICommand OpenWebCommand { get; }
+
+        public TheatrePlay()
+        {
+            OpenWebCommand = new Command<string>(async (string link) => await Browser.OpenAsync(link));
+        }
     }
 }
