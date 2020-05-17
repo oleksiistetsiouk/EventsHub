@@ -37,7 +37,7 @@ namespace EventsHub.Mobile.ViewModels
 
         public TheatrePlaysViewModel()
         {
-            Title = "Вистави";
+            Title = "Театр";
             PlayTreshold = 4;
             pageNumber = 1;
             theatreService = new TheatreService();

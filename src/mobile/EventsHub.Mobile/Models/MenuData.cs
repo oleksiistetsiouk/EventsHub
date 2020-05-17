@@ -9,22 +9,22 @@ namespace EventsHub.Mobile.Models
         {
             Add(new MenuItem()
             {
-                Title = "Films",
+                Title = "Кіно",
                 TargetType = typeof(FilmsPage)
             });
             Add(new MenuItem()
             {
-                Title = "Theatre Plays",
+                Title = "Театр",
                 TargetType = typeof(TheatrePlaysPage)
             });
             Add(new MenuItem()
             {
-                Title = "Concerts",
+                Title = "Концерти",
                 TargetType = typeof(ConcertsPage)
             });
             Add(new MenuItem()
             {
-                Title = "About",
+                Title = "Про додаток",
                 TargetType = typeof(AboutPage)
             });
         }
