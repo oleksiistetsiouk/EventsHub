@@ -168,6 +168,7 @@ namespace EventsHub.Parser.Parsers
                     PriceFrom = priceFrom,
                     PriceTo = priceTo,
                     SessionType = sessionType,
+                    CreatedAt = DateTime.Now,
                     Film = film,
                     Cinema = cinema
                 };
