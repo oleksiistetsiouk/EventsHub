@@ -116,7 +116,7 @@ namespace EventsHub.Mobile.ViewModels
             try
             {
                 var filmsCount = await filmService.FilmsCount();
-                pagesCount = (int)Math.Ceiling((double)filmsCount / AppConstants.PageSize);
+                pagesCount = (int)Math.Ceiling((double)filmsCount / AppConstants.PAGE_SIZE);
 
                 FilmTreshold = 4;
                 Films.Clear();

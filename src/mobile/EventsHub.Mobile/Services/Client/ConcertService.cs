@@ -11,9 +11,14 @@ namespace EventsHub.Mobile.Services.Client
 {
     public class ConcertService : ServiceBase
     {
+        public ConcertService()
+        {
+            HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetToken()}");
+        }
+
         public async Task<IEnumerable<Concert>> GetAllConcerts(int pageNumber = 1)
         {
-            var url = string.Format($"{Api.GetConcerts}", pageNumber, AppConstants.PageSize);
+            var url = string.Format($"{Api.GetConcerts}", pageNumber, AppConstants.PAGE_SIZE);
             if (!IsKeyExpired(url))
             {
                 return Barrel.Current.Get<IEnumerable<Concert>>(key: url);
@@ -25,7 +30,7 @@ namespace EventsHub.Mobile.Services.Client
                 UserDialogs.Instance.Toast("Please check your internet connection", TimeSpan.FromSeconds(2));
             }
 
-            var json = await httpClient.GetStringAsync(url);
+            var json = await HttpClient.GetStringAsync(url);
             var concerts = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Concert>>(json));
 
             Barrel.Current.Add(key: url, data: concerts, expireIn: TimeSpan.FromDays(1));
@@ -41,7 +46,7 @@ namespace EventsHub.Mobile.Services.Client
                 return Barrel.Current.Get<int>(key: url);
             }
 
-            var json = await httpClient.GetStringAsync(url);
+            var json = await HttpClient.GetStringAsync(url);
             var count = await Task.Run(() => JsonConvert.DeserializeObject<int>(json));
             Barrel.Current.Add(key: url, data: count, expireIn: TimeSpan.FromDays(1));
 

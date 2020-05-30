@@ -4,14 +4,16 @@ using EventsHub.Mobile.Views;
 using EventsHub.Mobile.Constants;
 using System.Windows.Input;
 using MonkeyCache.FileStore;
+using EventsHub.Mobile.Services.Client;
+using System.Threading.Tasks;
 
 namespace EventsHub.Mobile
 {
     public partial class App : Application
     {
-        public static string ApiUrl = "http://xelazardasp-001-site1.itempurl.com/api/";
         private static readonly FormsNavigationService navigationService = new FormsNavigationService();
-
+        private ICommand RegisterApp => new Command(async () => await RegisterMobileApp());
+        private AuthenticationService authenticationService = new AuthenticationService();
         public static ICommand ToLoginPageCommand { get; set; }
         public static ICommand ToMainPageCommand { get; set; }
         public static ICommand ToAboutPageCommand { get; set; }
@@ -20,10 +22,16 @@ namespace EventsHub.Mobile
         public App()
         {
             InitializeComponent();
+            Barrel.ApplicationId = "EventsHub";
             ConfigureNavigation();
             AddNavigateCommands();
             MainPage = navigationService.SetRootPage(nameof(MainPage));
-            Barrel.ApplicationId = "EventsHub";
+            RegisterApp.Execute(null);
+        }
+
+        private async Task RegisterMobileApp()
+        {
+            await authenticationService.Login(AppConstants.SERVICE_ACCOUNT_EMAIL, AppConstants.SERVICE_ACCOUNT_PASSWORD);
         }
 
         private void ConfigureNavigation()

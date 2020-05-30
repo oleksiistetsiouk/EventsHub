@@ -39,7 +39,7 @@ namespace EventsHub.Mobile.ViewModels
                 return false;
             }
 
-            return await authenticationService.Login(email, password);
+            return await Task.FromResult(true);//await authenticationService.Login(email, password);
         }
 
         public string Email

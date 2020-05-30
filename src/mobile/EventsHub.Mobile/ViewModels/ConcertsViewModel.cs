@@ -116,7 +116,7 @@ namespace EventsHub.Mobile.ViewModels
             try
             {
                 var concertsCount = await concertService.ConcertsCount();
-                pagesCount = (int)Math.Ceiling((double)concertsCount / AppConstants.PageSize);
+                pagesCount = (int)Math.Ceiling((double)concertsCount / AppConstants.PAGE_SIZE);
 
                 ConcertTreshold = 4;
                 Concerts.Clear();

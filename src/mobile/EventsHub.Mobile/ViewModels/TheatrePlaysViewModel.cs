@@ -115,7 +115,7 @@ namespace EventsHub.Mobile.ViewModels
             try
             {
                 var playsCount = await theatreService.PlaysCount();
-                pagesCount = (int)Math.Ceiling((double)playsCount / AppConstants.PageSize);
+                pagesCount = (int)Math.Ceiling((double)playsCount / AppConstants.PAGE_SIZE);
 
                 PlayTreshold = 4;
                 TheatrePlays.Clear();
