@@ -2,9 +2,11 @@
 using EventsHub.Mobile.Extensions;
 using EventsHub.Mobile.Models;
 using EventsHub.Mobile.Services.Client;
+using EventsHub.Mobile.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -16,6 +18,12 @@ namespace EventsHub.Mobile.ViewModels
         public Command LoadFilmsCommand { get; set; }
         public Command FilmTresholdReachedCommand { get; set; }
         public Command RefreshFilmsCommand { get; set; }
+        public ObservableCollection<Film> filteredFilms;
+        public ObservableCollection<Film> FilteredFilms
+        {
+            get { return filteredFilms; }
+            set { SetProperty(ref filteredFilms, value); }
+        }
 
         private int filmTreshold;
         private bool isRefreshing;
@@ -42,6 +50,7 @@ namespace EventsHub.Mobile.ViewModels
             pageNumber = 1;
             filmService = new FilmService();
             Films = new ObservableCollection<Film>();
+            FilteredFilms = new ObservableCollection<Film>();
             LoadFilmsCommand = new Command(async () => await ExecuteLoadFilmsCommand());
             FilmTresholdReachedCommand = new Command(async () => await FilmsTresholdReached());
             RefreshFilmsCommand = new Command(async () =>
@@ -50,6 +59,21 @@ namespace EventsHub.Mobile.ViewModels
                 pageNumber = 1;
                 FilmTreshold = 4;
                 IsRefreshing = false;
+            });
+
+            MessagingCenter.Subscribe<FilmsPage, TextChangedEventArgs>(this, "FilterFilms", (obj, e) =>
+            {
+                string filterText = e.NewTextValue;
+                var filtered = Films.Where(item => item.Title.ToLower().Contains(filterText.ToLower()));
+                if (filtered != null)
+                {
+                    FilteredFilms = new ObservableCollection<Film>();
+                    FilteredFilms.AddRange(filtered);
+                }
+                else
+                {
+                    filteredFilms = new ObservableCollection<Film>();
+                }
             });
         }
 
@@ -69,6 +93,7 @@ namespace EventsHub.Mobile.ViewModels
                     return;
                 }
                 var films = await filmService.GetAllFilms(pageNumber);
+                FilteredFilms.AddRange(films);
                 Films.AddRange(films);
             }
             catch (Exception ex)
@@ -97,6 +122,7 @@ namespace EventsHub.Mobile.ViewModels
                 Films.Clear();
                 var films = await filmService.GetAllFilms();
                 Films.AddRange(films);
+                FilteredFilms.AddRange(films);
             }
             catch (Exception ex)
             {
