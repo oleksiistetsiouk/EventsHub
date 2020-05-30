@@ -18,7 +18,6 @@ namespace EventsHub.Mobile.ViewModels
         public Command LoadFilmsCommand { get; set; }
         public Command FilmTresholdReachedCommand { get; set; }
         public Command RefreshFilmsCommand { get; set; }
-        public ObservableCollection<Film> filteredFilms;
         public ObservableCollection<Film> FilteredFilms
         {
             get { return filteredFilms; }
@@ -30,6 +29,7 @@ namespace EventsHub.Mobile.ViewModels
         private int pageNumber;
         private int pagesCount;
         private FilmService filmService;
+        private ObservableCollection<Film> filteredFilms;
 
         public bool IsRefreshing
         {

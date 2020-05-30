@@ -7,61 +7,69 @@
              x:Class="EventsHub.Mobile.Views.TheatrePlaysPage"
              Title="{Binding Title}">
 
-    <Grid>
+
+    <NavigationPage.TitleView>
+        <SearchBar Placeholder="Пошук" 
+                   TextChanged="SearchBar_TextChanged"
+                   TextColor="White"/>
+    </NavigationPage.TitleView>
+    <StackLayout>
         <RefreshView Command="{Binding RefreshPlaysCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-            <CollectionView x:Name="ItemsCollectionView"
-                            ItemsSource="{Binding TheatrePlays}"
-                            VerticalOptions="FillAndExpand"
-                            SelectionChanged="OnItemSelected"
-                            RemainingItemsThresholdReachedCommand="{Binding PlayTresholdReachedCommand}"
-                            RemainingItemsThreshold="{Binding PlayTreshold}">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                        Span="2" />
-                </CollectionView.ItemsLayout>
-                <d:CollectionView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>First Item</x:String>
-                        <x:String>Second Item</x:String>
-                        <x:String>Third Item</x:String>
-                        <x:String>Fourth Item</x:String>
-                        <x:String>Fifth Item</x:String>
-                        <x:String>Sixth Item</x:String>
-                    </x:Array>
-                </d:CollectionView.ItemsSource>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="15, 10, 15, 10" RowSpacing="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+            <StackLayout>
+                <CollectionView x:Name="ItemsCollectionView"
+                                ItemsSource="{Binding FilteredPlays}"
+                                VerticalOptions="FillAndExpand"
+                                SelectionChanged="OnItemSelected"
+                                RemainingItemsThresholdReachedCommand="{Binding PlayTresholdReachedCommand}"
+                                RemainingItemsThreshold="{Binding PlayTreshold}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                            Span="2" />
+                    </CollectionView.ItemsLayout>
+                    <d:CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>First Item</x:String>
+                            <x:String>Second Item</x:String>
+                            <x:String>Third Item</x:String>
+                            <x:String>Fourth Item</x:String>
+                            <x:String>Fifth Item</x:String>
+                            <x:String>Sixth Item</x:String>
+                        </x:Array>
+                    </d:CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="15, 10, 15, 10" RowSpacing="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                            <Frame Grid.Row="1"
-                                    CornerRadius="3" 
-                                    Padding="0" HasShadow="True">
-                                <Image Source="{Binding PosterUrl}"
-                                    HeightRequest="210"
-                                    Aspect="Fill"/>
-                            </Frame>
+                                <Frame Grid.Row="1"
+                                        CornerRadius="3" 
+                                        Padding="0" HasShadow="True">
+                                    <Image Source="{Binding PosterUrl}"
+                                        HeightRequest="210"
+                                        Aspect="Fill"/>
+                                </Frame>
 
-                            <Label Grid.Row="2"
-                                   Text="{Binding Title}"
-                                   FontSize="13"
-                                   FontAttributes="Bold" />
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
-                            </Grid.GestureRecognizers>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                <Label Grid.Row="2"
+                                       Text="{Binding Title}"
+                                       FontSize="13"
+                                       FontAttributes="Bold" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </RefreshView>
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            HeightRequest="30"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            WidthRequest="30"/>
-    </Grid>
+        </StackLayout>
 </ContentPage>
