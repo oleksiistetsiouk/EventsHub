@@ -1,11 +1,13 @@
 ﻿using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TheatreController : ControllerBase

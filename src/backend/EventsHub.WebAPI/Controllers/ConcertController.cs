@@ -1,13 +1,16 @@
 ﻿using EventsHub.BLL.Interfaces;
+using EventsHub.Common;
 using EventsHub.Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class ConcertController : ControllerBase
     {
         private readonly IConcertService concertService;

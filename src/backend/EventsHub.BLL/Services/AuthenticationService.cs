@@ -9,10 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using EventsHub.DAL.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using EventsHub.DAL.Entities;
 using EventsHub.Common.Helpers;
 using AutoMapper;
+using EventsHub.Common;
 
 namespace EventsHub.BLL.Services
 {
@@ -59,7 +59,7 @@ namespace EventsHub.BLL.Services
             {
                 var claim = new[]
                 {
-                    new Claim("Id", userDto.Id.ToString()),
+                    new Claim("Id", userDto.UserId.ToString()),
                     new Claim(ClaimTypes.Email, userDto.Email),
                     new Claim(ClaimTypes.Role, userDto.RoleName)
                 };
@@ -70,7 +70,7 @@ namespace EventsHub.BLL.Services
                     tokenManagement.Issuer,
                     tokenManagement.Audience,
                     claim,
-                    expires: DateTime.Now.AddMinutes(tokenManagement.AccessExpiration),
+                    expires: (userDto.RoleName == Roles.MobileClient) ? DateTime.Now.AddDays(7) : DateTime.Now.AddMinutes(tokenManagement.AccessExpiration),
                     signingCredentials: credentials
                 );
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtToken);

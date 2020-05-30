@@ -35,7 +35,7 @@ namespace EventsHub.Mobile.Web
             services.AddExceptionHandler();
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SmarterAspConnectionString"));
             services.AddUnitOfWork();
-            ConfigureAuth(services);
+            ConfigureAuthentication(services);
             //services
             services.AddTransient<ParserService>();
             services.AddTransient<CleanerService>();
@@ -54,14 +54,15 @@ namespace EventsHub.Mobile.Web
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
         }
 
-        private void ConfigureAuth(IServiceCollection services)
+        private void ConfigureAuthentication(IServiceCollection services)
         {
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();

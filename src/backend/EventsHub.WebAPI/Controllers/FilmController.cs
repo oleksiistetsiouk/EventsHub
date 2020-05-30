@@ -1,11 +1,13 @@
 ﻿using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FilmController : ControllerBase
@@ -27,7 +29,7 @@ namespace EventsHub.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTheatrePlays([FromQuery] FilterParams filterParams)
+        public async Task<IActionResult> GetAllFilms([FromQuery] FilterParams filterParams)
         {
             var films = await filmService.GetAllFilms(filterParams);
             if (!films.Any()) return NotFound();
