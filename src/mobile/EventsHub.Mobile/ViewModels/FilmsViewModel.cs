@@ -63,7 +63,7 @@ namespace EventsHub.Mobile.ViewModels
 
             MessagingCenter.Subscribe<FilmsPage, TextChangedEventArgs>(this, "FilterFilms", (obj, e) =>
             {
-                string filterText = e.NewTextValue;
+                var filterText = e.NewTextValue;
                 var filtered = Films.Where(item => item.Title.ToLower().Contains(filterText.ToLower()));
                 if (filtered != null)
                 {
@@ -72,7 +72,7 @@ namespace EventsHub.Mobile.ViewModels
                 }
                 else
                 {
-                    filteredFilms = new ObservableCollection<Film>();
+                    FilteredFilms = new ObservableCollection<Film>();
                 }
             });
         }

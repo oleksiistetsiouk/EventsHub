@@ -35,7 +35,7 @@ namespace EventsHub.Mobile.Views
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            MessagingCenter.Send<TheatrePlaysPage, TextChangedEventArgs>(this, "FilterPlays", e);
+            MessagingCenter.Send(this, "FilterPlays", e);
         }
     }
 }

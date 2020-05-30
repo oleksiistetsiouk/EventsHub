@@ -32,5 +32,10 @@ namespace EventsHub.Mobile.Views
             if (viewModel.Concerts.Count == 0)
                 viewModel.LoadConcertsCommand.Execute(null);
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MessagingCenter.Send(this, "FilterConcerts", e);
+        }
     }
 }

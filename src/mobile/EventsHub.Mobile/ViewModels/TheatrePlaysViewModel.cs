@@ -62,7 +62,7 @@ namespace EventsHub.Mobile.ViewModels
             });
             MessagingCenter.Subscribe<TheatrePlaysPage, TextChangedEventArgs>(this, "FilterPlays", (obj, e) =>
             {
-                string filterText = e.NewTextValue;
+                var filterText = e.NewTextValue;
                 var filtered = TheatrePlays.Where(item => item.Title.ToLower().Contains(filterText.ToLower()));
                 if (filtered != null)
                 {
@@ -71,7 +71,7 @@ namespace EventsHub.Mobile.ViewModels
                 }
                 else
                 {
-                    filteredPlays = new ObservableCollection<TheatrePlay>();
+                    FilteredPlays = new ObservableCollection<TheatrePlay>();
                 }
             });
         }
