@@ -4,7 +4,6 @@ using EventsHub.DAL.Entities.Concert;
 using EventsHub.DAL.Entities.Film;
 using EventsHub.DAL.Entities.Theatre;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace EventsHub.DAL.SQLServer
 {

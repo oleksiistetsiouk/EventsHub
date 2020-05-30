@@ -27,12 +27,6 @@ namespace EventsHub.Mobile.Models
                 Title = "Про додаток",
                 TargetType = typeof(AboutPage)
             });
-
-            this.Add(new MenuItem()
-            {
-                Title = "Films",
-                TargetType = typeof(FilmsPage)
-            });
         }
     }
 }

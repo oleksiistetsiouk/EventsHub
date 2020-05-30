@@ -58,7 +58,9 @@ namespace EventsHub.Parser.Parsers
                     Place = place,
                     Price = price,
                     PosterUrl = posterUrl,
-                    DirectLink = directLink
+                    DirectLink = directLink,
+                    Description = "",
+                    CreatedAt = DateTime.Now
                 };
 
                 Concerts.Add(concert);

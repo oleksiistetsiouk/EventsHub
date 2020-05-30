@@ -32,5 +32,10 @@ namespace EventsHub.Mobile.Views
             if (viewModel.TheatrePlays.Count == 0)
                 viewModel.LoadPlaysCommand.Execute(null);
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MessagingCenter.Send(this, "FilterPlays", e);
+        }
     }
 }

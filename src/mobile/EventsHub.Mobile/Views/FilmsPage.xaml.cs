@@ -32,5 +32,10 @@ namespace EventsHub.Mobile.Views
             if (viewModel.Films.Count == 0)
                 viewModel.LoadFilmsCommand.Execute(null);
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MessagingCenter.Send(this, "FilterFilms", e);
+        }
     }
 }
