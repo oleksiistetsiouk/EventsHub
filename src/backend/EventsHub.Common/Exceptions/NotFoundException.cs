@@ -6,7 +6,7 @@
         {
         }
 
-        public NotFoundException(string itemName) : base($"{itemName} not found!")
+        public NotFoundException(string itemName) : base($"{itemName} not found")
         {
         }
     }

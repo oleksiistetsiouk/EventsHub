@@ -2,7 +2,6 @@
 using EventsHub.Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.WebAPI.Controllers
@@ -23,7 +22,6 @@ namespace EventsHub.WebAPI.Controllers
         public async Task<IActionResult> GetFilm(int id)
         {
             var film = await filmService.GetFilm(id);
-            if (film == null) return NotFound();
 
             return Ok(film);
         }
@@ -32,7 +30,6 @@ namespace EventsHub.WebAPI.Controllers
         public async Task<IActionResult> GetAllFilms([FromQuery] FilterParams filterParams)
         {
             var films = await filmService.GetAllFilms(filterParams);
-            if (!films.Any()) return NotFound();
 
             return Ok(films);
         }

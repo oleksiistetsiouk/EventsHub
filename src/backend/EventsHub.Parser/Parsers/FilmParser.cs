@@ -1,4 +1,5 @@
-﻿using EventsHub.DAL.Entities.Film;
+﻿using EventsHub.Common.Exceptions;
+using EventsHub.DAL.Entities.Film;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,22 @@ namespace EventsHub.Parser.Parsers
 
         public async Task Parse()
         {
-            var link = GetActualSiteUrl();
-            var filmLinks = await GetFilmLinks(link);
+            try
+            {
+                var link = GetActualSiteUrl();
+                var filmLinks = await GetFilmLinks(link);
 
-            await ParseFilms(filmLinks);
+                await ParseFilms(filmLinks);
+            }
+            catch (ParserException ex)
+            {
+                throw new ParserException(nameof(FilmParser), ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(FilmParser)}: {ex.Message}");
+            }
+
         }
 
         public string GetActualSiteUrl()

@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace TheraLang.Web.ExceptionHandling
 {

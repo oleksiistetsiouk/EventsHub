@@ -24,27 +24,16 @@ namespace EventsHub.WebAPI.Controllers
         [HttpPost("signIn")]
         public async Task<IActionResult> SignIn([FromBody] LoginViewModel loginModel)
         {
-            try
-            {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<LoginViewModel, LoginDto>()).CreateMapper();
-                var loginDto = mapper.Map<LoginViewModel, LoginDto>(loginModel);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<LoginViewModel, LoginDto>()).CreateMapper();
+            var loginDto = mapper.Map<LoginViewModel, LoginDto>(loginModel);
 
-                var user = await authenticationService.GetUser(loginDto);
-                var token = await authenticationService.Login(user);
-                if (string.IsNullOrEmpty(token))
-                {
-                    return BadRequest("Invalid Request");
-                }
+            var user = await authenticationService.GetUser(loginDto);
+            var token = await authenticationService.Login(user);
 
-                return Ok(new LoginResponse()
-                {
-                    Token = token,
-                });
-            }
-            catch (Exception ex)
+            return Ok(new LoginResponse()
             {
-                return BadRequest(ex.Message);
-            }
+                Token = token,
+            });
         }
 
         [AllowAnonymous]

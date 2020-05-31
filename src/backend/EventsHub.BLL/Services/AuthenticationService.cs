@@ -13,6 +13,8 @@ using EventsHub.DAL.Entities;
 using EventsHub.Common.Helpers;
 using AutoMapper;
 using EventsHub.Common;
+using Common.Exceptions;
+using EventsHub.Common.Exceptions;
 
 namespace EventsHub.BLL.Services
 {
@@ -29,28 +31,20 @@ namespace EventsHub.BLL.Services
 
         public async Task<UserDto> GetUser(LoginDto loginDto)
         {
-            try
+            var user = await unitOfWork.UserRepository.Get(u => u.Email == loginDto.Email);
+            if (user == null)
+                throw new NotFoundException($"User with {nameof(loginDto.Email)} {loginDto.Email}");
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>()
+                .ForMember(u => u.RoleName, opt => opt.MapFrom(u => u.Role.Name)))
+                .CreateMapper();
+            var userDto = mapper.Map<User, UserDto>(user);
+
+            if (PasswordHasher.VerifyHashedPassword(user.PasswordHash, loginDto.Password))
             {
-                var user = await unitOfWork.UserRepository.Get(u => u.Email == loginDto.Email);
-
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>()
-                    .ForMember(u => u.RoleName, opt => opt.MapFrom(u => u.Role.Name)))
-                    .CreateMapper();
-                var userDto = mapper.Map<User, UserDto>(user);
-
-                if (user == null)
-                    throw new Exception($"User {nameof(loginDto.Email)}: {loginDto.Email} not found.");
-
-                if (PasswordHasher.VerifyHashedPassword(user.PasswordHash, loginDto.Password))
-                {
-                    return userDto;
-                }
-                throw new Exception($"Cannot get user with {nameof(loginDto.Email)}: {loginDto.Email}.");
+                return userDto;
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            throw new AuthorizationException($"Invalid password");
         }
 
         public async Task<string> Login(UserDto userDto)

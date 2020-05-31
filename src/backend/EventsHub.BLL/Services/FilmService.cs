@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Exceptions;
 using EventsHub.BLL.DTO;
 using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
@@ -28,7 +29,8 @@ namespace EventsHub.BLL.Services
                 cfg.CreateMap<Session, SessionDto>();
             }).CreateMapper();
 
-            var film = await unitOfWork.FilmRepository.Get(f => f.FilmId == id);
+            var film = await unitOfWork.FilmRepository.Get(f => f.FilmId == id) ??
+                throw new NotFoundException(nameof(Film));
             var filmDto = mapper.Map<Film, FilmDto>(film);
 
             return filmDto;
@@ -37,6 +39,9 @@ namespace EventsHub.BLL.Services
         public async Task<IEnumerable<FilmDto>> GetAllFilms(FilterParams filterParams)
         {
             var films = await unitOfWork.FilmRepository.GetAll(null, filterParams);
+
+            if (!films.Any())
+                throw new NotFoundException("Films");
 
             var mapper = new MapperConfiguration(cfg =>
             {

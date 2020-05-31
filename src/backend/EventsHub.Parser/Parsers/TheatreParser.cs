@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using EventsHub.Common.Exceptions;
+using HtmlAgilityPack;
+using System;
 using System.Threading.Tasks;
 
 namespace EventsHub.Parser.Parsers
@@ -14,9 +16,20 @@ namespace EventsHub.Parser.Parsers
 
         public async Task Parse()
         {
-            var web = new HtmlWeb();
-            var doc = web.Load("https://lviv-online.com/ua/events/theatre/");
-            var nodes = doc.DocumentNode.SelectNodes("//div[contains(@class, 'page_navigation')]");
+            try
+            {
+                var web = new HtmlWeb();
+                var doc = await web.LoadFromWebAsync("https://lviv-online.com/ua/events/theatre/");
+                var nodes = doc.DocumentNode.SelectNodes("//div[contains(@class, 'page_navigation')]");
+            }
+            catch (ParserException ex)
+            {
+                throw new ParserException(nameof(TheatreParser), ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(TheatreParser)}: {ex.Message}");
+            }
         }
     }
 }

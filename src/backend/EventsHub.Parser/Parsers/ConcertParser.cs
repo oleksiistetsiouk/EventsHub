@@ -1,4 +1,5 @@
-﻿using EventsHub.DAL.Entities.Concert;
+﻿using EventsHub.Common.Exceptions;
+using EventsHub.DAL.Entities.Concert;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -36,34 +37,45 @@ namespace EventsHub.Parser.Parsers
 
         public async Task Parse()
         {
-            var web = new HtmlWeb();
-            var doc = await web.LoadFromWebAsync(link);
-
-            var events = doc.DocumentNode.SelectNodes("//a[contains(@class, 'event')]");
-            foreach (var @event in events)
+            try
             {
-                var eventNodes = @event.ChildNodes.Where(n => n.Name != "#text");
+                var web = new HtmlWeb();
+                var doc = await web.LoadFromWebAsync(link);
 
-                var title = eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(1).InnerText;
-                var date = ConvertDate(eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(0).InnerText);
-                var place = eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(2).InnerText.Trim();
-                var price = ConvertPrice(eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(3).InnerText);
-                var posterUrl = eventNodes.Where(n => n.Name == "img").First().Attributes.ElementAt(1).Value.Split(':').ElementAt(1).Substring(2);
-                var directLink = "https://concert.ua" + @event.Attributes.ElementAt(1).Value;
-
-                var concert = new Concert()
+                var events = doc.DocumentNode.SelectNodes("//a[contains(@class, 'event')]");
+                foreach (var @event in events)
                 {
-                    Title = title,
-                    Date = date,
-                    Place = place,
-                    Price = price,
-                    PosterUrl = posterUrl,
-                    DirectLink = directLink,
-                    Description = "",
-                    CreatedAt = DateTime.Now
-                };
+                    var eventNodes = @event.ChildNodes.Where(n => n.Name != "#text");
 
-                Concerts.Add(concert);
+                    var title = eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(1).InnerText;
+                    var date = ConvertDate(eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(0).InnerText);
+                    var place = eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(2).InnerText.Trim();
+                    var price = ConvertPrice(eventNodes.ElementAt(1).ChildNodes.Where(n => n.Name != "#text").ElementAt(3).InnerText);
+                    var posterUrl = eventNodes.Where(n => n.Name == "img").First().Attributes.ElementAt(1).Value.Split(':').ElementAt(1).Substring(2);
+                    var directLink = "https://concert.ua" + @event.Attributes.ElementAt(1).Value;
+
+                    var concert = new Concert()
+                    {
+                        Title = title,
+                        Date = date,
+                        Place = place,
+                        Price = price,
+                        PosterUrl = posterUrl,
+                        DirectLink = directLink,
+                        Description = "",
+                        CreatedAt = DateTime.Now
+                    };
+
+                    Concerts.Add(concert);
+                }
+            }
+            catch (ParserException ex)
+            {
+                throw new ParserException(nameof(ConcertParser), ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{nameof(ConcertParser)}: {ex.Message}");
             }
         }
 
