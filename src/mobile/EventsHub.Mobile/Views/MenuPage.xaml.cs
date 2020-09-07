@@ -1,4 +1,5 @@
-﻿using EventsHub.Mobile.Models;
+﻿using EventsHub.Mobile.Constants;
+using EventsHub.Mobile.Models;
 using System.ComponentModel;
 using Xamarin.Forms;
 
@@ -12,8 +13,7 @@ namespace EventsHub.Mobile.Views
         public MenuPage()
         {
             InitializeComponent();
-            Title = "Events Hub";
-            //Icon = "menuicon.png";
+            Title = AppConstants.APP_NAME;
             BackgroundColor = Color.FromHex("#3C83B8");
             Padding = new Thickness(10);
             menu = new MenuListView();
@@ -25,7 +25,7 @@ namespace EventsHub.Mobile.Views
                 {
                     TextColor = Color.White,
 
-                    Text = "Events Hub",
+                    Text = AppConstants.APP_NAME,
                     FontAttributes = FontAttributes.Bold,
                     FontSize = 18
                 }

@@ -12,7 +12,7 @@ namespace EventsHub.Mobile.Models
         public string DirectLink { get; set; }
         public int PriceFrom { get; set; }
         public int PriceTo { get; set; }
-        public bool IsShown { get; set; }
+        public bool IsShown => DateTime.Now > Time;
         public string SessionType { get; set; }
         public string PriceRange => PriceTo == 0 ? PriceFrom.ToString() : $"{PriceFrom}-{PriceTo}";
         public ICommand OpenWebCommand { get; }

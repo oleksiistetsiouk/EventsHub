@@ -9,11 +9,16 @@ using System;
 
 namespace EventsHub.Mobile.Services.Client
 {
-    class FilmService : ServiceBase
+    public class FilmService : ServiceBase
     {
+        public FilmService()
+        {
+            HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetToken()}");
+        }
+
         public async Task<IEnumerable<Film>> GetAllFilms(int pageNumber = 1)
         {
-            var url = string.Format($"{Api.GetFilms}", pageNumber, AppConstants.PageSize);
+            var url = string.Format($"{Api.GetFilms}", pageNumber, AppConstants.PAGE_SIZE);
             if (!IsKeyExpired(url))
             {
                 return Barrel.Current.Get<IEnumerable<Film>>(key: url);
@@ -25,7 +30,7 @@ namespace EventsHub.Mobile.Services.Client
                 UserDialogs.Instance.Toast("Please check your internet connection", TimeSpan.FromSeconds(2));
             }
 
-            var json = await httpClient.GetStringAsync(url);
+            var json = await HttpClient.GetStringAsync(url);
             var films = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<Film>>(json));
 
             Barrel.Current.Add(key: url, data: films, expireIn: TimeSpan.FromDays(1));
@@ -41,7 +46,7 @@ namespace EventsHub.Mobile.Services.Client
                 return Barrel.Current.Get<int>(key: url);
             }
 
-            var json = await httpClient.GetStringAsync(Api.GetFilmsCount);
+            var json = await HttpClient.GetStringAsync(Api.GetFilmsCount);
             var count = await Task.Run(() => JsonConvert.DeserializeObject<int>(json));
             Barrel.Current.Add(key: url, data: count, expireIn: TimeSpan.FromDays(1));
 

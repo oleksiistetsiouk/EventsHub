@@ -72,13 +72,17 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
-                                                    <Frame BorderColor="LightGray" HasShadow="True" Grid.Row="0" Padding="5">
+                                                    <Frame BorderColor="LightGray"
+                                                           HasShadow="True"
+                                                           Grid.Row="0"
+                                                           Padding="5">
                                                         <StackLayout>
                                                             <Label FontSize="10" Text="{Binding Time, StringFormat='{0:HH:mm}'}"/>
                                                             <Label FontSize="10" Text="{Binding PriceRange}"/>
                                                         </StackLayout>
                                                         <Frame.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}" CommandParameter="{Binding DirectLink}"/>
+                                                            <TapGestureRecognizer Command="{Binding OpenWebCommand}"
+                                                                                  CommandParameter="{Binding DirectLink}"/>
                                                         </Frame.GestureRecognizers>
                                                     </Frame>
                                                 </Grid>

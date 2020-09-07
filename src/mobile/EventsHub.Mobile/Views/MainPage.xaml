@@ -11,9 +11,9 @@
         <views:MenuPage />
     </MasterDetailPage.Master>
 
-    <MasterDetailPage.ToolbarItems>
+    <!--<MasterDetailPage.ToolbarItems>
         <ToolbarItem Text="User" Clicked="ToUserPage_Clicked"/>
-    </MasterDetailPage.ToolbarItems>
+    </MasterDetailPage.ToolbarItems>-->
 
     <MasterDetailPage.Detail>
         <NavigationPage>

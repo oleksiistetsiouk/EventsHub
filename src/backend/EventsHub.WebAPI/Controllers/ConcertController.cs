@@ -1,13 +1,14 @@
 ﻿using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class ConcertController : ControllerBase
     {
         private readonly IConcertService concertService;
@@ -21,7 +22,6 @@ namespace EventsHub.WebAPI.Controllers
         public async Task<IActionResult> GetConcert(int id)
         {
             var concert = await concertService.GetConcert(id);
-            if (concert == null) return NotFound();
 
             return Ok(concert);
         }
@@ -30,7 +30,6 @@ namespace EventsHub.WebAPI.Controllers
         public async Task<IActionResult> GetAllConcerts([FromQuery] FilterParams filterParams)
         {
             var concerts = await concertService.GetAllConcerts(filterParams);
-            if (!concerts.Any()) return NotFound();
 
             return Ok(concerts);
         }

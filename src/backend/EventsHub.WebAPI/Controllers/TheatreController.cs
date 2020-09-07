@@ -1,11 +1,12 @@
 ﻿using EventsHub.BLL.Interfaces;
 using EventsHub.Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsHub.WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TheatreController : ControllerBase
@@ -21,7 +22,6 @@ namespace EventsHub.WebAPI.Controllers
         public async Task<IActionResult> GetTheatrePlay(int id)
         {
             var play = await theatreService.GetTheatrePlay(id);
-            if (play == null) return NotFound();
 
             return Ok(play);
         }
@@ -30,7 +30,6 @@ namespace EventsHub.WebAPI.Controllers
         public async Task<IActionResult> GetAllTheatrePlays([FromQuery] FilterParams filterParams)
         {
             var plays = await theatreService.GetAllTheatrePlays(filterParams);
-            if (!plays.Any()) return NotFound();
 
             return Ok(plays);
         }

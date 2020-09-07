@@ -15,6 +15,7 @@ namespace EventsHub.Mobile.Models
         public DateTime Date { get; set; }
         public string PosterUrl { get; set; }
         public string DirectLink { get; set; }
+        public bool IsShown => DateTime.Now > Date;
         public string PriceRange => PriceTo == 0 ? PriceFrom.ToString() : $"{PriceFrom}-{PriceTo}";
         public ICommand OpenWebCommand { get; }
 

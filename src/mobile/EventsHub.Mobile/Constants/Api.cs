@@ -10,5 +10,7 @@
 
         public const string GetConcerts = "concert?pageNumber={0}&pageSize={1}";
         public const string GetConcertsCount = "concert/count";
+
+        public const string Login = "account/signin";
     }
 }

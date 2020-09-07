@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using EventsHub.BLL.Interfaces;
 using FluentValidation.AspNetCore;
+using EventsHub.WebAPI.Extensions;
+using EventsHub.WebAPI.ActionFilters;
 
 namespace EventsHub.Mobile.Web
 {
@@ -25,16 +27,22 @@ namespace EventsHub.Mobile.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
+            services
+                .AddMvc(options =>
+                {
+                    options.Filters.Add(new ModelValidationFilter());
+                    options.Filters.Add(typeof(ExceptionFilter));
+                })
                 .AddFluentValidation(options =>
-            {
-                   options.RegisterValidatorsFromAssemblyContaining<Startup>();
-                   options.ImplicitlyValidateChildProperties = true;
-            });
-
+                {
+                    options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    options.ImplicitlyValidateChildProperties = true;
+                });
+            services.AddExceptionHandler();
             services.AddSqlServerDbContext(Configuration.GetConnectionString("SmarterAspConnectionString"));
             services.AddUnitOfWork();
-            ConfigureAuth(services);
+            ConfigureAuthentication(services);
+
             //services
             services.AddTransient<ParserService>();
             services.AddTransient<CleanerService>();
@@ -53,14 +61,15 @@ namespace EventsHub.Mobile.Web
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
         }
 
-        private void ConfigureAuth(IServiceCollection services)
+        private void ConfigureAuthentication(IServiceCollection services)
         {
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();

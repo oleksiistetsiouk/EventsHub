@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EventsHub.Mobile.Models
+﻿namespace EventsHub.Mobile.Models
 {
     public enum MenuItemType
     {
