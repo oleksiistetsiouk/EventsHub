@@ -1,7 +1,11 @@
-﻿using EventsHub.DAL.SQLServer;
+﻿using EventsHub.DAL.Entities.Concert;
+using EventsHub.DAL.Entities.Film;
+using EventsHub.DAL.Entities.Theatre;
+using EventsHub.DAL.SQLServer;
 using EventsHub.Parser.Parsers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventsHub.Parser
@@ -10,17 +14,36 @@ namespace EventsHub.Parser
     {
         public async Task Run()
         {
-            var fparser = new FilmParser();
-            await fparser.Parse();
-
-            using (var db = CreateDbContext())
+            var parsers = new List<IParser>()
             {
-                db.Films.AddRange(fparser.Films);
-                db.SaveChanges();
+                new FilmParser(),
+                new ConcertParser(),
+                new TheatreParser()
+            };
+
+            foreach (var parser in parsers)
+            {
+                await parser.Parse();
+                using (var db = CreateDbContext())
+                {
+                    if (parser is FilmParser)
+                    {
+                        await db.Set<Film>().AddRangeAsync((parser as FilmParser).Films);
+                    }
+                    if (parser is ConcertParser)
+                    {
+                        await db.Set<Concert>().AddRangeAsync((parser as ConcertParser).Concerts);
+                    }    
+                    if (parser is TheatreParser)
+                    {
+                        await db.Set<TheatrePlay>().AddRangeAsync((parser as TheatreParser).Plays);
+                    }
+                    await db.SaveChangesAsync();
+                }
             }
         }
 
-        private SqlServerDbContext CreateDbContext()
+        private DbContext CreateDbContext()
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");

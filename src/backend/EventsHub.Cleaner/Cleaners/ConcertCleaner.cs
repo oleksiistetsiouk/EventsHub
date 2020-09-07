@@ -15,7 +15,7 @@ namespace EventsHub.Cleaner.Cleaners
 
         public void Clean()
         {
-            var concerts = context.Concerts.Where(c => c.CreatedAt == DateTime.Now);
+            var concerts = context.Concerts.Where(c => c.Date < DateTime.Now);
             context.Concerts.RemoveRange(concerts);
         }
     }

@@ -27,7 +27,7 @@ namespace EventsHub.Mobile.Web
             {
                 CreateWebHostBuilder(args)
                     .Build()
-                    //.StartScheduler()
+                    .StartScheduler()
                     .Run();
             }
             catch (Exception e)

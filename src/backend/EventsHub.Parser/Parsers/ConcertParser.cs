@@ -69,13 +69,9 @@ namespace EventsHub.Parser.Parsers
                     Concerts.Add(concert);
                 }
             }
-            catch (ParserException ex)
-            {
-                throw new ParserException(nameof(ConcertParser), ex.Message);
-            }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(ConcertParser)}: {ex.Message}");
+                throw new ParserException(nameof(ConcertParser), ex.Message);
             }
         }
 

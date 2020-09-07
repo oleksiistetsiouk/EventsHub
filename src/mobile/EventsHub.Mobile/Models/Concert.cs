@@ -14,6 +14,8 @@ namespace EventsHub.Mobile.Models
         public string PosterUrl { get; set; }
         public string DirectLink { get; set; }
         public string Place { get; set; }
+        public bool IsShown => DateTime.Now > Date;
+
         public ICommand OpenWebCommand { get; }
 
         public Concert()

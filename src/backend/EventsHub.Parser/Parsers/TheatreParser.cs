@@ -1,6 +1,8 @@
 ﻿using EventsHub.Common.Exceptions;
+using EventsHub.DAL.Entities.Theatre;
 using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventsHub.Parser.Parsers
@@ -9,6 +11,7 @@ namespace EventsHub.Parser.Parsers
     {
         private string link = "https://lviv-online.com/ua/events/theatre/page/1/";
         private int pageNumber;
+        public List<TheatrePlay> Plays { get; set; }
 
         public TheatreParser()
         {

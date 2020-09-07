@@ -96,10 +96,6 @@ namespace EventsHub.Mobile.ViewModels
                 FilteredFilms.AddRange(films);
                 Films.AddRange(films);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
             finally
             {
                 IsBusy = false;
@@ -123,10 +119,6 @@ namespace EventsHub.Mobile.ViewModels
                 var films = await filmService.GetAllFilms();
                 Films.AddRange(films);
                 FilteredFilms.AddRange(films);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
             }
             finally
             {
